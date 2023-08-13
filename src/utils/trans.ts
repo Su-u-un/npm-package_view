@@ -12,3 +12,9 @@ export function test(data, root, require) {
   return temp
 }
 
+export function emit(data){
+
+
+
+
+}

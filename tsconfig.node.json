@@ -1,16 +1,31 @@
+//{
+//  "extends": "@tsconfig/node18/tsconfig.json",
+//  "include": [
+//    "vite.config.*",
+//    "vitest.config.*",
+//    "cypress.config.*",
+//    "nightwatch.conf.*",
+//    "playwright.config.*"
+//  ],
+//  "compilerOptions": {
+//    "composite": true,
+//    "module": "ESNext",
+//    "moduleResolution": "Bundler",
+//    "types": ["node"]
+//  }
+//}
 {
-  "extends": "@tsconfig/node18/tsconfig.json",
-  "include": [
-    "vite.config.*",
-    "vitest.config.*",
-    "cypress.config.*",
-    "nightwatch.conf.*",
-    "playwright.config.*"
-  ],
   "compilerOptions": {
+    // 对于引用项目必须设置该属性
     "composite": true,
+    // 使用 ES Module 格式打包编译后的文件
     "module": "ESNext",
-    "moduleResolution": "Bundler",
-    "types": ["node"]
-  }
+    // 使用 Node 的模块解析策略
+    "moduleResolution": "Node",
+    // 允许使用 import 导入使用 export = 导出的默认内容
+    "allowSyntheticDefaultImports": true
+  },
+  // 包含文件编译的匹配模式，这里配置只针对 vite.config.ts
+  "include": ["vite.config.ts"]
 }
+

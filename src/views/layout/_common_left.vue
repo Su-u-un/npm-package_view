@@ -16,12 +16,13 @@ import {useRouter} from 'vue-router'
 
 const router = useRouter()
 
-let method = ref(['Tree','Force-Directed'])
+let method = ref(['Tree','Force_Directed'])
+
 function turnView(type){
-  if(type==='Tree')
-    router.push({name: 'Tree'})
-  else if(type==='Force-Directed')
-    router.push({name: 'Force'})
+  if(type===method.value[0])
+    router.push({name: method.value[0]})
+  else if(type===method.value[1])
+    router.push({name: method.value[1]})
   
 }
 
@@ -30,6 +31,8 @@ function turnView(type){
 <style scoped>
 .left{
   width:200px;
-  background-color: green;
+  border:black solid 1px;
+  border-top: none;
+  /*background-color: green;*/
 }
 </style>

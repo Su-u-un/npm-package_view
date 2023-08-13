@@ -19,15 +19,12 @@ onMounted(() => {
       height.value = centerElement.value.offsetHeight;
     }
   });
+  
+  window.addEventListener('mousedown', click)
 });
-onUpdated(() => {
-  nextTick(() => {
-    if (centerElement.value.offsetHeight&&centerElement.value.offsetWidth) {
-      width.value = centerElement.value.offsetWidth;
-      height.value = centerElement.value.offsetHeight;
-    }
-  });
-});
+function click(e){
+  console.log(e)
+}
 
 </script>
 

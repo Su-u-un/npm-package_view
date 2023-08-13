@@ -60,7 +60,6 @@ class view implements View {
   }
   init() {
     view.root = d3.hierarchy(this.data, d => d.children)
-    
     view.root.x0 = 0
     view.root.y0 = 0
     
@@ -322,6 +321,7 @@ function updateLinks(source: any,links:any) {
   }
 }
 function click(d: any) {
+  console.log(d)
   if (d._clickid) {
     // 若在200ms里面点击第二次，则不做任何操作，清空定时器
     clearTimeout(d._clickid);
