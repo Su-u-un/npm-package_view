@@ -4,7 +4,7 @@
 
 <script setup lang="ts">
 import D3view from '@/components/Tree'
-import {defineProps} from 'vue'
+import {defineProps, onMounted, onUpdated} from 'vue'
 let props = defineProps({
   width:Number,
   height:Number
@@ -46,7 +46,6 @@ fetch('output/res.json')
     }
   
     const result = addChildElements(data, 0);
-    // console.log(result)
     func(result.children)
 
     // 添加value
@@ -75,7 +74,6 @@ fetch('output/res.json')
     // 处理读取JSON文件时的错误
     console.error(error);
   })
-
 
 </script>
 

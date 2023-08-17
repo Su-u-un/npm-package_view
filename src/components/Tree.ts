@@ -1,5 +1,6 @@
 import * as d3 from 'd3'
 import {store} from "@/store.js"
+import {readme} from '../utils'
 
 // 参数的定义
 interface Data {
@@ -15,13 +16,6 @@ interface Option {
   duration?: number
   height?: number
   width?: number
-  margin?: Margin
-}
-interface Margin {
-  top: number,
-  bottom: number,
-  left: number,
-  right: number,
 }
 
 // 组件的定义
@@ -47,13 +41,7 @@ class view implements View {
     this.settings = Object.assign({
       width: 800,
       height: 800,
-      duration: 800,
-      margin: {
-        top: 300,
-        bottom: 100,
-        left: 100,
-        right: 100
-      }
+      duration: 800
     }, this.settings)
     view.duration = this.settings.duration!
     this.init()
@@ -85,10 +73,12 @@ function template(settings:Option) {
     .append('svg')
     .attr('width', settings.width!)
     .attr('height', settings.height!)
+    .attr('id','svg')
+    .attr('viewBox',`-${settings.width/2},-${settings.height/2},${settings.width},${settings.height}`)
   // 创建视图
   view.panel = svg
     .append("g")
-    .attr('transform', "translate(" + settings.margin!.left + "," + settings.margin!.top + ")")
+    .attr('transform', "translate(  0  ,  0 )")
   // 创建拖拽
   const zoom:any = d3
     .zoom()
@@ -97,9 +87,9 @@ function template(settings:Option) {
       view.panel.attr(
         "transform",
         "translate(" +
-        (d3.event.transform.x + settings.margin!.left) +
+        (d3.event.transform.x) +
         "," +
-        (d3.event.transform.y + settings.margin!.top) +
+        (d3.event.transform.y ) +
         ") scale(" +
         d3.event.transform.k +
         ")"
@@ -321,13 +311,420 @@ function updateLinks(source: any,links:any) {
   }
 }
 function click(d: any) {
-  console.log(d)
   if (d._clickid) {
     // 若在200ms里面点击第二次，则不做任何操作，清空定时器
     clearTimeout(d._clickid);
     d._clickid = null;
   } else {
-    store.data = d
+    let eee =[
+      {
+        "dataIndex": 0,
+        "data": {
+          "id": "test-pkg",
+          "version": "1.0.0",
+          "path": "/home/runner/app/npm-package/test-pkg",
+          "meta": [
+            {
+              "range": "^1.4.0",
+              "type": "norm",
+              "depthEnd": false,
+              "optional": false,
+              "invalid": false
+            },
+            {
+              "range": "^1.7.0",
+              "type": "norm",
+              "depthEnd": false,
+              "optional": false,
+              "invalid": false
+            },
+            {
+              "range": "^18.2.0",
+              "type": "norm",
+              "depthEnd": false,
+              "optional": false,
+              "invalid": false
+            },
+            {
+              "range": "^18.2.0",
+              "type": "norm",
+              "depthEnd": false,
+              "optional": false,
+              "invalid": false
+            },
+            {
+              "range": "^20.4.8",
+              "type": "dev",
+              "depthEnd": false,
+              "optional": false,
+              "invalid": true
+            },
+            {
+              "range": "^8.46.0",
+              "type": "dev",
+              "depthEnd": false,
+              "optional": false,
+              "invalid": false
+            },
+            {
+              "range": "^0.0.3",
+              "type": "dev",
+              "depthEnd": false,
+              "optional": false,
+              "invalid": false
+            },
+            {
+              "range": "^6.1.3",
+              "type": "dev",
+              "depthEnd": false,
+              "optional": false,
+              "invalid": false
+            },
+            {
+              "range": "^5",
+              "type": "dev",
+              "depthEnd": false,
+              "optional": false,
+              "invalid": false
+            }
+          ],
+          "requiring": [
+            1,
+            10,
+            93,
+            96,
+            85,
+            98,
+            99,
+            100,
+            101
+          ],
+          "requiredBy": []
+        },
+        "vx": 0.0007975963699959673,
+        "vy": -0.0020006145362939163,
+        "x": 35.09860259269928,
+        "y": 7.3424255063672845,
+        "showNode": true,
+        "showRequiring": true,
+        "index": 0,
+        "r": 7.25,
+        "fx": null,
+        "fy": null
+      },
+      {
+        "dataIndex": 1,
+        "data": {
+          "id": "axios",
+          "version": "1.4.0",
+          "path": "node_modules",
+          "meta": [
+            {
+              "range": "^1.15.0",
+              "type": "norm",
+              "depthEnd": false,
+              "optional": false,
+              "invalid": false
+            },
+            {
+              "range": "^4.0.0",
+              "type": "norm",
+              "depthEnd": false,
+              "optional": false,
+              "invalid": false
+            },
+            {
+              "range": "^1.1.0",
+              "type": "norm",
+              "depthEnd": false,
+              "optional": false,
+              "invalid": false
+            }
+          ],
+          "requiring": [
+            2,
+            3,
+            9
+          ],
+          "requiredBy": [
+            0
+          ]
+        },
+        "vx": 0.0009336320904315537,
+        "vy": -0.0006382271462099497,
+        "x": -111.88571692572961,
+        "y": -20.455568979011407,
+        "showNode": true,
+        "showRequiring": true,
+        "index": 1,
+        "r": 4.0249999999999995,
+        "fx": null,
+        "fy": null
+      },
+      {
+        "dataIndex": 2,
+        "data": {
+          "id": "follow-redirects",
+          "version": "1.15.2",
+          "path": "node_modules/.pnpm/node_modules",
+          "meta": [],
+          "requiring": [],
+          "requiredBy": [
+            1
+          ]
+        },
+        "vx": 0.0017020710964386595,
+        "vy": 0.00004285873161187052,
+        "x": -30.710933165424247,
+        "y": 99.28128146354605,
+        "showNode": true,
+        "showRequiring": false,
+        "r": 3.5,
+        "index": 2
+      },
+      {
+        "dataIndex": 3,
+        "data": {
+          "id": "form-data",
+          "version": "4.0.0",
+          "path": "node_modules",
+          "meta": [
+            {
+              "range": "^0.4.0",
+              "type": "norm",
+              "depthEnd": false,
+              "optional": false,
+              "invalid": false
+            },
+            {
+              "range": "^1.0.8",
+              "type": "norm",
+              "depthEnd": false,
+              "optional": false,
+              "invalid": false
+            },
+            {
+              "range": "^2.1.12",
+              "type": "norm",
+              "depthEnd": false,
+              "optional": false,
+              "invalid": false
+            }
+          ],
+          "requiring": [
+            4,
+            5,
+            7
+          ],
+          "requiredBy": [
+            1
+          ]
+        },
+        "vx": 0.001837281499021819,
+        "vy": -0.002231733529702963,
+        "x": 13.908752577163947,
+        "y": 65.07693384635014,
+        "showNode": true,
+        "showRequiring": false,
+        "r": 4.0249999999999995,
+        "index": 3
+      },
+      {
+        "dataIndex": 4,
+        "data": {
+          "id": "asynckit",
+          "version": "0.4.0",
+          "path": "node_modules",
+          "meta": [],
+          "requiring": [],
+          "requiredBy": [
+            3
+          ]
+        },
+        "vx": 0,
+        "vy": 0,
+        "x": 0,
+        "y": 0,
+        "showNode": false,
+        "showRequiring": false
+      },
+      {
+        "dataIndex": 5,
+        "data": {
+          "id": "combined-stream",
+          "version": "1.0.8",
+          "path": "node_modules",
+          "meta": [
+            {
+              "range": "~1.0.0",
+              "type": "norm",
+              "depthEnd": false,
+              "optional": false,
+              "invalid": false
+            }
+          ],
+          "requiring": [
+            6
+          ],
+          "requiredBy": [
+            3
+          ]
+        },
+        "vx": 0,
+        "vy": 0,
+        "x": 0,
+        "y": 0,
+        "showNode": false,
+        "showRequiring": false
+      },
+      {
+        "dataIndex": 27,
+        "data": {
+          "id": "core-util-is",
+          "version": "1.0.3",
+          "path": "node_modules",
+          "meta": [],
+          "requiring": [],
+          "requiredBy": [
+            26
+          ]
+        },
+        "vx": 0,
+        "vy": 0,
+        "x": 0,
+        "y": 0,
+        "showNode": false,
+        "showRequiring": false
+      },
+      {
+        "dataIndex": 28,
+        "data": {
+          "id": "isarray",
+          "version": "1.0.0",
+          "path": "node_modules",
+          "meta": [],
+          "requiring": [],
+          "requiredBy": [
+            26
+          ]
+        },
+        "vx": 0,
+        "vy": 0,
+        "x": 0,
+        "y": 0,
+        "showNode": false,
+        "showRequiring": false
+      },
+      {
+        "dataIndex": 29,
+        "data": {
+          "id": "process-nextick-args",
+          "version": "2.0.1",
+          "path": "node_modules",
+          "meta": [],
+          "requiring": [],
+          "requiredBy": [
+            26,
+            34
+          ]
+        },
+        "vx": 0,
+        "vy": 0,
+        "x": 0,
+        "y": 0,
+        "showNode": false,
+        "showRequiring": false
+      },
+      {
+        "dataIndex": 30,
+        "data": {
+          "id": "safe-buffer",
+          "version": "5.2.1",
+          "path": "node_modules",
+          "meta": [],
+          "requiring": [],
+          "requiredBy": [
+            26,
+            31,
+            20
+          ]
+        },
+        "vx": 0,
+        "vy": 0,
+        "x": 0,
+        "y": 0,
+        "showNode": false,
+        "showRequiring": false
+      },
+      {
+        "dataIndex": 31,
+        "data": {
+          "id": "string_decoder",
+          "version": "1.1.1",
+          "path": "node_modules",
+          "meta": [
+            {
+              "range": "~5.1.0",
+              "type": "norm",
+              "depthEnd": false,
+              "optional": false,
+              "invalid": true
+            }
+          ],
+          "requiring": [
+            30
+          ],
+          "requiredBy": [
+            26
+          ]
+        },
+        "vx": 0,
+        "vy": 0,
+        "x": 0,
+        "y": 0,
+        "showNode": false,
+        "showRequiring": false
+      },
+      {
+        "dataIndex": 32,
+        "data": {
+          "id": "util-deprecate",
+          "version": "1.0.2",
+          "path": "node_modules",
+          "meta": [],
+          "requiring": [],
+          "requiredBy": [
+            26
+          ]
+        },
+        "vx": 0,
+        "vy": 0,
+        "x": 0,
+        "y": 0,
+        "showNode": false,
+        "showRequiring": false
+      },
+      {
+        "dataIndex": 33,
+        "data": {
+          "id": "stream-shift",
+          "version": "1.0.1",
+          "path": "node_modules",
+          "meta": [],
+          "requiring": [],
+          "requiredBy": [
+            21
+          ]
+        },
+        "vx": 0,
+        "vy": 0,
+        "x": 0,
+        "y": 0,
+        "showNode": false,
+        "showRequiring": false
+      }
+    ]
+    readme(d,eee)
     // 首次点击，添加定时器，350ms后进行toggle
     d._clickid = setTimeout(() => {
       if (d.children) {

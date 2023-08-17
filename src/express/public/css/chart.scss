@@ -1,0 +1,235 @@
+$en-fonts: Monaco, Hack, Consolas;
+$cn-fonts: '方正准圆简体', '青鸟华光准圆', '有爱圆体 CN', '幼圆';
+@mixin backshade($clr: white, $bold: 0.1px) {
+    filter: drop-shadow(0 0 $bold $clr) 
+            drop-shadow(0 0 $bold $clr) 
+            drop-shadow(0 0 $bold $clr)
+            drop-shadow(0 0 $bold $clr)
+            drop-shadow(0 0 $bold $clr)
+            drop-shadow(0 0 $bold $clr)
+            drop-shadow(0 0 $bold $clr)
+            drop-shadow(0 0 $bold $clr)
+            drop-shadow(0 0 $bold $clr);
+}
+
+.chinese-note {
+    writing-mode: tb-rl;
+}
+
+.node {
+    @at-root {
+        circle#{&} {
+            stroke-width: 1.5px;
+        }
+        text#{&} {
+            font-family: $en-fonts, $cn-fonts, sans-serif;
+            font-size: 11px;
+        }
+    }
+}
+
+.link {
+    @at-root {
+        line#{&} {
+            stroke: #999;
+        }
+        text#{&} {
+            fill: #999;
+            font-size: 10px;
+            font-weight: 500;
+            font-family: $cn-fonts, sans-serif;
+            @include backshade();
+        }
+    }
+}
+
+.hidden-node {
+    @at-root circle#{&} {
+        fill: rgb(231, 213, 127);
+        stroke: rgb(230, 244, 40)
+    }
+}
+
+.terminal-node {
+    @at-root circle#{&} {
+        fill: black;
+        stroke: none;
+    }
+}
+
+.free-node {
+    @at-root {
+        circle#{&} {
+            fill: #f7f3da;
+            stroke: grey;
+        }
+        text#{&} {
+            fill: darkgrey;
+        }
+    }
+}
+
+.transit-node {
+    @at-root circle#{&} {
+        fill: white;
+        stroke: black;
+    }
+}
+
+.depth-end {
+    &-node {
+        @at-root circle#{&} {
+            fill: rgb(201, 109, 109);
+        }
+    }
+    &-link {
+        @at-root line#{&} {
+            stroke: rgb(201, 109, 109);
+        }
+    }
+}
+
+.not-found-node {
+    @at-root {
+        circle#{&} {
+            stroke: rgb(144, 114, 123);
+            fill:rgb(72, 57, 57)
+        }
+        text#{&} {
+            fill: rgb(135, 46, 68);
+        }
+    }
+}
+
+.direct-node {
+    @at-root circle#{&} {
+        stroke: #c84;
+    }
+}
+
+.root-node {
+    @at-root {
+        circle#{&} {
+            stroke-width: 2px;
+            stroke: rgb(174, 32, 77);
+        }
+
+        text#{&} {
+            font-weight: 800;
+            font-size: 14px;
+        }
+    }
+}
+
+.except-node {
+    @at-root {
+        circle#{&} {
+            stroke: #ddd;
+            fill: #ddd;
+        }
+        text#{&} {
+            fill: #ddd;
+        }
+    }
+}
+
+line.optional-link {
+    stroke-dasharray: 8 2 2 2;
+}
+
+line.invalid-link {
+    stroke: rgb(201, 109, 109);
+    stroke-width: 2px;
+}
+
+.in {
+    &-link {
+        @at-root {
+            line#{&} {
+                stroke: green;
+            }
+            text#{&} {
+                fill: green;
+            }
+        }
+    }
+    &-node {
+        @at-root {
+            circle#{&} {
+                fill: green;
+            }
+            text#{&} {
+                fill: green;
+            }
+        }
+    }
+}
+
+.out{
+    &-link {
+        @at-root { 
+            line#{&} {
+                stroke: orange;
+            }
+            text#{&} {
+                fill: orange;
+            }
+        }
+    }
+    &-node {
+        @at-root {
+            circle#{&} {
+                fill: orange;
+            }
+            text#{&} {
+                fill: rgb(204, 90, 14);
+            }
+        }
+    }
+}
+
+.path{
+    &-link {
+        @at-root { 
+            line#{&} {
+                stroke: cyan;
+            }
+            text#{&} {
+                fill: rgb(30, 188, 216);
+            }
+        }
+    }
+    &-node {
+        @at-root {
+            circle#{&} {
+                fill: cyan;
+            }
+            text#{&} {
+                fill: blue;
+            }
+        }
+    }
+}
+
+text.invalid-link {
+    fill: rgb(172, 77, 107);
+    @include backshade(rgb(56, 45, 45));
+}
+
+.focus {
+    &-link {
+        @at-root line#{&} {
+            stroke: black;
+        }
+    }
+    &-node {
+        @at-root {
+            circle#{&} {
+                stroke: red;
+            }
+            text#{&} {
+                fill: red;
+            }
+        }
+    }
+}

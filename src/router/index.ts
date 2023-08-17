@@ -1,7 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import main from '../views/main.vue'
-import Tree from '../views/charts/Tree.vue'
-import Force_Directed from '../views/charts/Force_Directed.vue'
 import Home from '../views/layout/components/Home.vue'
 
 
@@ -24,12 +22,12 @@ const router = createRouter({
         {
           path:'/Tree',
           name:'Tree',
-          component:Tree
+          component:()=>import ('../views/charts/Tree.vue')
         },
         {
           path:'/Force_Directed',
           name:'Force_Directed',
-          component:Force_Directed
+          component:()=>import ('../views/charts/Force_Directed.vue')
         }
       ]
     },

@@ -3,7 +3,10 @@ import {RouterView } from 'vue-router'
 </script>
 
 <template>
-  <router-view/>
+<!--  <el-scrollbar>-->
+    <router-view/>
+
+<!--  </el-scrollbar>-->
 </template>
 
 <style scoped>
