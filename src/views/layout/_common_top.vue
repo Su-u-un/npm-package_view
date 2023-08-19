@@ -54,6 +54,9 @@ const color = computed({
 .left{
   display: flex;
 }
+.el-menu-item:hover{
+  color:black !important;
+}
 .el-menu-item:focus{
   background-color:transparent !important;
 }

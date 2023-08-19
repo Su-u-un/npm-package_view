@@ -56,7 +56,7 @@ function onMousemove (e:any) {
   const CurBoxLen = curLen + moveLen // resize[i].left+移动的距离=左边区域最后的宽度
   const rightBoxLen = dragBox.clientWidth - CurBoxLen - otherBoxWidth // 右侧宽度=总宽度-左侧宽度-其它盒子宽度
   // 当最小宽度时，无法继续拖动
-  if (CurBoxLen <= 200 || rightBoxLen <= 200) return
+  if (CurBoxLen <= 500 || rightBoxLen <= 500) return
   currentBox.style.width = CurBoxLen + 'px'// 当前盒子的宽度
   resizeBox.style.left = CurBoxLen // 设置左侧区域的宽度
   rightBox.style.width = rightBoxLen + 'px'

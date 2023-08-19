@@ -66,6 +66,7 @@ class view implements View {
   
 }
 
+
 function template(settings:Option) {
   // 创建svg
   const svg = d3

@@ -43,9 +43,12 @@ export function readme(uri,nodes){
           parent:parent,
           children:children
         }
-        // console.log(store.data)
       }).catch(err=>err)
   
   
 }
-
+// 收起节点，清空信息
+export function clear(){
+  store.data = {}
+  store.readme = ''
+}

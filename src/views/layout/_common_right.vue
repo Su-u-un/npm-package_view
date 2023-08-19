@@ -46,7 +46,7 @@ const readme = computed(()=>store.readme)
 .el-aside {
   display:flex;
   flex-direction: column;
-  width:100vh;
+  width:40%;
   height:calc(100vh - 60px);
   border-top: none;
   overflow: auto;

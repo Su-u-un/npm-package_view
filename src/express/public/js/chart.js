@@ -1,5 +1,8 @@
 import { getLength, getCenter, getPaths, getAngle, includeChinese, limit } from "./utils.js";
 import NodeMenu from "./chartMenu.js";
+import * as d3 from 'd3'
+import {readme} from '@/utils'
+
 export class Link { 
     constructor(source, target, meta) {
         this.source = source;
@@ -351,7 +354,7 @@ export default class Chart {
 
     // 右键菜单事件
     updateOptions() {
-        this.circle.on('contextmenu', d3.contextMenu(NodeMenu(this)));
+        // this.circle.on('contextmenu', d3.contextMenu(NodeMenu(this)));
     }
 
     // 根据顶点showNode和showRequiring属性的变化更新有向图
@@ -454,6 +457,9 @@ export default class Chart {
     clickNode(eThis, node) {
         const { data: { requiring }, dataIndex: i } = node;
         console.log('点击顶点', i, eThis, node, this.requirePaths[i]);
+
+        readme(node,this.nodes)
+
         if(!requiring.length) return;
         this.showRequiring(i);
         this.update();

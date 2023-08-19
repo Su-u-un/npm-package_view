@@ -3,6 +3,7 @@ import { nodeMenu } from "./chartMenu";
 import { getLength, getCenter, getAngle, getPaths, includeChinese, limit } from "./utils";
 import D3Menu from "./lib/d3-context-menu";
 import * as d3 from 'd3'
+import {clear} from '@/utils'
 
 const createMenu = D3Menu(d3);
 
@@ -89,17 +90,19 @@ export default class Chart {
     scale: Scale
     options: ChartOption
     nodes: Node[] = []
+    node!: Node;
     vsbNodes: Node[] = []
     vsbLinks: Link[] = []
     requirePaths: number[][] = []
-    g: d3.Selection<SVGGElement, any, any, any> = d3.select('');
-    desc: d3.Selection<SVGTextElement, any, any, any> = d3.select('');
-    linkg: d3.Selection<SVGGElement, any, any, any> = d3.select('');
-    nodeg: d3.Selection<SVGGElement, any, any, any> = d3.select('');
-    link: d3.Selection<SVGLineElement | d3.BaseType, Link, any, any> = d3.selectAll('');
-    linkNote: d3.Selection<SVGTextElement | d3.BaseType, Link, any, any> = d3.selectAll('');
-    circle: d3.Selection<SVGCircleElement | d3.BaseType, Node, any, any> = d3.selectAll('');
-    label: d3.Selection<SVGTextElement | d3.BaseType, Node, any, any> = d3.selectAll('');
+    g: d3.Selection<SVGGElement, any, any, any> = d3.select('body');
+    desc: d3.Selection<SVGTextElement, any, any, any> = d3.select('body');
+    linkg: d3.Selection<SVGGElement, any, any, any> = d3.select('body');
+    nodeg: d3.Selection<SVGGElement, any, any, any> = d3.select('body');
+    link: d3.Selection<SVGLineElement | d3.BaseType, Link, any, any> = d3.selectAll('body');
+    linkNote?: d3.Selection<SVGTextElement | d3.BaseType, Link, any, any>;
+    // linkNote: d3.Selection<SVGTextElement | d3.BaseType, Link, any, any> = d3.selectAll('body');
+    circle: d3.Selection<SVGCircleElement | d3.BaseType, Node, any, any> = d3.selectAll('body');
+    label: d3.Selection<SVGTextElement | d3.BaseType, Node, any, any> = d3.selectAll('body');
     simulation: d3.Simulation<Node, Link> = d3.forceSimulation();
     
     init(initOptions: Partial<ChartOption>) {
@@ -180,9 +183,10 @@ export default class Chart {
         var zoom = d3
             .zoom()
             // 设置缩放区域为0.1-100倍
-            .scaleExtent([0.1, 100])
+            .scaleExtent([1, 10])
             .on("zoom", () => {
                 // 子group元素将响应zoom事件，并更新transform状态
+                
                 const { x, y, k } = d3.event.transform;
                 g.attr("transform", `translate(${x}, ${y}) scale(${k})`);
             });
@@ -409,6 +413,7 @@ export default class Chart {
         this.vsbNodes
             .filter(n => node.data.requiring.includes(n.dataIndex))
             .forEach(n => this.hideNode(n, true, [node]));
+        clear()
     }
 
     // 右键菜单事件
@@ -517,6 +522,7 @@ export default class Chart {
     // 鼠标点击顶点事件
     clickNode(eThis: any, node: Node) {
         const { data: { requiring }, dataIndex: i } = node;
+        this.node = node
         console.log('点击顶点', i, eThis, node, this.requirePaths[i]);
         if(!requiring.length) return;
         this.showRequiring(i);
