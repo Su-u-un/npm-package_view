@@ -4,13 +4,15 @@ import {marked} from 'marked'
 
 // 传入点击得到的节点信息，传入所有依赖的数据
 export function readme(uri,nodes){
+  console.log(uri,nodes);
+  
   // 得到数据
   const {data} = uri
   // 被谁依赖
   let parent = []
   data.requiredBy.forEach(item=>{
     // 查询得到被依赖的名称，加入parent数组
-    parent.push(nodes[item].data.id)
+    parent.push(nodes[item].id)
   })
   // 依赖谁?---这里用上element的虚拟树形控件
   let children = []
@@ -18,7 +20,7 @@ export function readme(uri,nodes){
     const meta = data.meta[i]
     const key = data.requiring[i]
     let obj = {
-      name : nodes[key].data.id,
+      name : nodes[key].id,
       range : meta.range,
       type : meta.type,
       optional : meta.optional,
@@ -26,8 +28,8 @@ export function readme(uri,nodes){
     children.push(obj)
   }
   
-    let b = data.path + '/' + data.id + '/readme.md'
-    let a = data.path + '/' + data.id + '/package.json'
+    let b = data.dir + '/' + data.id + '/readme.md'
+    let a = data.dir + '/' + data.id + '/package.json'
   
     fetch(b).then(res=>res.text()).then(
       data=>{

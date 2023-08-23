@@ -65,6 +65,63 @@ export type Scale = {
     height: number
 }
 
+class Hierarchy{
+    constructor(
+        public data:DirectedDiagram,
+        public index:number
+    ){
+        this.id = data[index].id
+        this.version = data[index].version
+        this.dir = data[index].dir
+        this.meta = data[index].meta
+        this.requiring = data[index].requiring
+        this.requiredBy = data[index].requiredBy
+
+        this.children = this.trans(data,index)
+    }
+
+    id: string;
+    version: string;
+    dir: string | null;
+    meta: LinkMeta[];
+    requiring: number[];
+    requiredBy: number[];
+    children?:any
+
+    trans(data:DirectedDiagram, index:number) {
+        const root = data[index];
+        const children = root.requiring.map((childIndex) => {
+          const child = data[childIndex]
+          if(child.requiring.length){
+            child.children = []
+            child.children.push(this.trans(data,childIndex))
+            return {
+                id: child.id,
+                version: child.version,
+                dir:child.dir,
+                meta:child.meta,
+                requiring: child.requiring,
+                requiredBy: child.requiredBy,
+                children: child.children
+            };
+          }
+          else{
+            return {
+                id: child.id,
+                version: child.version,
+                dir:child.dir,
+                meta:child.meta,
+                requiring: child.requiring,
+                requiredBy: child.requiredBy,
+              };
+          }
+        });
+
+        return children
+      }
+}
+
+
 export default class Chart {
     constructor(
         public svg: d3.Selection<any, any, any, any>,
@@ -104,7 +161,7 @@ export default class Chart {
     circle: d3.Selection<SVGCircleElement | d3.BaseType, Node, any, any> = d3.selectAll('body');
     label: d3.Selection<SVGTextElement | d3.BaseType, Node, any, any> = d3.selectAll('body');
     simulation: d3.Simulation<Node, Link> = d3.forceSimulation();
-    
+    transData?:Hierarchy
     init(initOptions: Partial<ChartOption>) {
         this.initData();
         this.initDiagram();
@@ -114,6 +171,9 @@ export default class Chart {
         console.log(nodes, vsbLinks);
 
         this.update();
+        this.transData = new Hierarchy(this.data,0)
+        console.log(this.transData);
+        
     }
 
     initData() {

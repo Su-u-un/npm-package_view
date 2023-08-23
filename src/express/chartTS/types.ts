@@ -71,6 +71,7 @@ export type DepItem = {
 
 // 顶点属性
 export type DiagramNode = {
+    [x:string]:any
     id: string;
     version: string;
     path: string | null;
