@@ -1,7 +1,7 @@
 <template>
   <el-header>
     <div class="left" ref="nmd">
-      <div>
+      <div class="logo" @click="handleLogo">
         NPM-PKG-ANALYSIS
       </div>
       <el-menu 
@@ -12,6 +12,7 @@
         :default-active="activeIndex">
         <el-menu-item index="Force_Directed">Force_Directed</el-menu-item>
         <el-menu-item index="Tree">Tree</el-menu-item>
+        <el-menu-item index="sunburst">sunburst</el-menu-item>
       </el-menu>
     
     </div>
@@ -23,23 +24,19 @@
 
 <script lang="ts" setup>
 import {computed, ref,onMounted} from 'vue'
-import {useRoute} from "vue-router"
-import {store} from '@/store.js'
+import {useRouter} from "vue-router"
+import {clear} from "@/utils"
 
-const router = useRoute()
+const router = useRouter()
 const activeIndex = computed(()=>router.name )
 
-const nmd = ref<any>(null)
-const color = computed({
-  get(){
-    return store.color
-  },
-  set(newVal){
-    const parent  = nmd.value.parentNode
-    parent.style = "background-color:"+newVal
-    store.color = newVal
-  }
-})
+function handleLogo(){
+  router.push({
+    name:'Home'
+  })
+  clear()
+}
+
 
 </script>
 
@@ -50,6 +47,9 @@ const color = computed({
   display: flex;
   justify-content: space-between;
   background-color: #36dae0;
+}
+.logo{
+  cursor: pointer;
 }
 .left{
   display: flex;

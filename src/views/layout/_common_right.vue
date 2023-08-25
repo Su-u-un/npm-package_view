@@ -1,6 +1,7 @@
 <template>
   <el-aside>
-    <div class="mes" v-if="!(JSON.stringify(data)==='{}') ">
+    <el-scrollbar>
+<div class="mes" v-if="!(JSON.stringify(data)==='{}') ">
       <el-card class="mes-card">
         <template #header>
           <div class="card-header">
@@ -26,6 +27,7 @@
         <div v-html="readme"></div>
       </el-card>
     </div>
+    </el-scrollbar>
     
   </el-aside>
 </template>
@@ -46,10 +48,9 @@ const readme = computed(()=>store.readme)
 .el-aside {
   display:flex;
   flex-direction: column;
-  width:40%;
   height:calc(100vh - 60px);
   border-top: none;
-  overflow: auto;
+  width:100vh;
 }
 ::-webkit-scrollbar {
   width: 0;

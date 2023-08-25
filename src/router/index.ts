@@ -28,6 +28,11 @@ const router = createRouter({
           path:'/Force_Directed',
           name:'Force_Directed',
           component:()=>import ('../views/charts/Force_Directed.vue')
+        },
+        {
+          path:'/sunburst',
+          name:'sunburst',
+          component:()=>import ('../views/charts/sunburst.vue')
         }
       ]
     },
