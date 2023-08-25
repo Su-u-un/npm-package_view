@@ -11,6 +11,7 @@ export default defineConfig({
   plugins: [
     vue(),
     vueJsx(),
+
   ],
   resolve: {
     alias: {
@@ -22,5 +23,10 @@ export default defineConfig({
     host: '127.0.0.1',
     port: 5502,
     cors: true
-  }
+  },
+  css: {
+    preprocessorOptions: {
+        additionalData: '@import "@/assets/scss/globalVar.scss"; @import "@/assets/scss/globalMixin.scss";'
+    }
+}
 })

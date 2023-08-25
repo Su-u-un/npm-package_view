@@ -28,7 +28,8 @@
     "baseUrl": "src",
     "paths": {
       "@/*": ["./*"],
-      "@": ["./"]
+      "@": ["./"],
+      "highlight.js": ["./node_modules/@types/highlight.js"]
     }
   },
   // 包含文件编译的匹配模式
