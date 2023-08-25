@@ -4,11 +4,10 @@
 
 
 <script lang="ts">
-import Chart from "@/express/chartTS/chart"
-import * as d3 from 'd3'
-import '@/express/chartTS/lib/css/d3-context-menu.css'
-import "@/express/public/css/chart.css"
-import { join } from 'path-browserify';
+import * as d3 from 'd3';
+import Chart from "@/express/chartTS/chart";
+import '@/express/chartTS/lib/css/d3-context-menu.css';
+import "@/express/css/chart.css";
 
 export default {
   name: 'ForceDirected', 
