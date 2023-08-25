@@ -23,10 +23,16 @@
     // 引入 ES 最新特性和 DOM 接口的类型定义
     "lib": ["ESNext", "DOM"],
     // 跳过对 .d.ts 文件的类型检查
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "noImplicitAny": false,
+    "baseUrl": "src",
+    "paths": {
+      "@/*": ["./*"],
+      "@": ["./"]
+    }
   },
   // 包含文件编译的匹配模式
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "src/shims-vue.d.ts", "env.d.ts"],
   // 引入`tsconfig.node.json`中的配置
   "references": [{ "path": "./tsconfig.node.json" }]
 }

@@ -33,7 +33,7 @@ export async function readInfo(root: string, uri: string) {
 }
 
 // 传入点击得到的节点信息，传入所有依赖的数据
-export function readme(uri,nodes){
+export function readme(uri: any, nodes: any){
   console.log(uri,nodes);
   
   // 得到数据
@@ -41,13 +41,13 @@ export function readme(uri,nodes){
 
   
   // 被谁依赖
-  let parent = []
+  let parent: any[] = []
   data.requiredBy.forEach(item=>{
     // 查询得到被依赖的名称，加入parent数组
     parent.push(nodes[item].id)
   })
   // 依赖谁?---这里用上element的虚拟树形控件
-  let children = []
+  let children: any[] = []
   for(let i = 0;i<data.requiring.length;i++){
     const meta = data.meta[i]
     const key = data.requiring[i]

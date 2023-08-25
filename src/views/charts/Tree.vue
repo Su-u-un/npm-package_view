@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import D3view from '@/components/tree/chart.ts'
+import D3view from '@/components/tree/chart'
 import {readme} from '@/utils'
 
 const my = {

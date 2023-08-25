@@ -1,11 +1,17 @@
-<script setup lang="ts">
-import {RouterView } from 'vue-router'
+<script lang="ts">
+import { RouterView } from 'vue-router'
+
+export default {
+    name: 'App',
+    components: {
+        RouterView
+    }
+}
 </script>
 
 <template>
 <!--  <el-scrollbar>-->
     <router-view/>
-
 <!--  </el-scrollbar>-->
 </template>
 
