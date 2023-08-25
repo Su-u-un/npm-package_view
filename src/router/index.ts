@@ -22,12 +22,12 @@ const router = createRouter({
         {
           path:'/Tree',
           name:'Tree',
-          component:()=>import ('../views/charts/Tree.vue')
+          component:() =>import ('../views/charts/Tree.vue')
         },
         {
           path:'/Force_Directed',
           name:'Force_Directed',
-          component:()=>import ('../views/charts/Force_Directed.vue')
+          component:() =>import ('../views/charts/Force_Directed.vue')
         }
       ]
     },

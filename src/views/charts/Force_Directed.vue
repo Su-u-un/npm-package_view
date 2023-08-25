@@ -1,5 +1,5 @@
 <template>
-  <div id="chart" @click="click"></div>
+  <div id="chart"></div>
 </template>
 
 
@@ -7,7 +7,7 @@
 import { select, json } from 'd3';
 import Chart from "@/express/chartTS/chart";
 import '@/express/chartTS/lib/css/d3-context-menu.css';
-import "@/express/css/chart.css";
+import '@/express/css/styles/soft/chart.css';
 
 export default {
   name: 'ForceDirected',
