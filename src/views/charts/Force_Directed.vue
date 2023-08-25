@@ -25,7 +25,7 @@ export default {
   },
   methods: {
     load() {
-      json('output/test.json')
+      json('json/res.json')
         .then((data: any) => {
           this.my.data = data;
 

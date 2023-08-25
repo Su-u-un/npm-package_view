@@ -16,5 +16,11 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
+  },
+  server: {
+    https: false,
+    host: '127.0.0.1',
+    port: 5502,
+    cors: true
   }
 })

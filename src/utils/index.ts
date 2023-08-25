@@ -2,16 +2,25 @@
 import {store} from '@/store.js'
 import {marked} from 'marked'
 import { join } from 'path-browserify';
+import axios from 'axios';
 
 const READMEs = ["readme.md", "Readme.md", "README.md", "ReadMe.md"];
 const PACKAGE_JSON = "package.json";
 
-export async function readInfo(root: string, uri: string) {
-  const abs = (...dir: string[]) => join(root, ...dir);
+const staticUrl = 'http://127.0.0.1:5501/api';
+const staticQuest = axios.create({
+  baseURL: staticUrl
+});
 
-  console.log("Try to FETCH", abs(uri, PACKAGE_JSON));
-  let res = await fetch(abs(uri, PACKAGE_JSON));
-  const pkgJson = await res.json();
+export async function readInfo(...uri: string[]) {
+  uri = uri.map(e => e.replace('\\', '/'));
+  const abs = (...dir: string[]): string => join(staticUrl, ...uri, ...dir);
+  const rel = (...dir: string[]): string => join(...uri, ...dir);
+
+  console.log("Try to GET", abs(PACKAGE_JSON));
+  let res = await staticQuest.get(rel(PACKAGE_JSON));
+  console.log(res);
+  const pkgJson = res.data;
   const { name, version, description } = pkgJson;
 
   store.data = {
@@ -20,9 +29,9 @@ export async function readInfo(root: string, uri: string) {
 
   for(const n of READMEs) {
     try {
-      console.log("Trying to FETCH", abs(uri, n))
-      res = await fetch(abs(uri, n));
-      const text = await res.text()
+      console.log("Trying to FETCH", abs(n))
+      res = await staticQuest.get(rel(n));
+      const text = res.data;
       store.readme = marked(text);
       break;
     } catch {

@@ -612,8 +612,8 @@ export default class Chart {
     clickNode(eThis: any, node: Node) {
         const { data: { requiring }, dataIndex: i } = node;
         console.log('点击顶点', i, eThis, node, this.requirePaths[i]);
-        if(this.data[0].dir && node.data.dir) {
-            readInfo(join(this.data[0].dir, this.data[0].id), node.data.dir);
+        if(node.data.dir) {
+            readInfo(node.data.dir, node.data.id);
         }
         if (!requiring.length) return;
         this.showOutBorders(i);
