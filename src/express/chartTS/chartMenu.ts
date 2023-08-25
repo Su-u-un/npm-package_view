@@ -1,9 +1,11 @@
-import Chart, { Node } from "./chart";
+import { ContextMenu } from "./lib/d3-context-menu";
+import Chart from "./chart";
+import { Node } from "./chartNode";
 
 const genTitle = (desc: string, judge = () => true, trueExpr = '开启', falseExpr = '关闭') => 
         `${desc}: ` + (judge() ? trueExpr : falseExpr);
 
-export const nodeMenu = (ct: Chart) => {
+export const nodeMenu = (ct: Chart): ContextMenu.MenuItems<any, Node> => {
     const { options: opt } = ct;
     
     return [ 
@@ -11,16 +13,28 @@ export const nodeMenu = (ct: Chart) => {
             title: (e: Node) => (e.showRequiring ? '收起' : '展开') + '依赖', 
             action: (e: Node) => ((
                 e.showRequiring ? 
-                    ct.hideBorders(e) : ct.showRequiring(e.dataIndex)
+                    ct.hideOutBorders(e.dataIndex) : 
+                    ct.showOutBorders(e.dataIndex)
                 ), ct.update()),
             disabled: (e: Node) => !e.dataIndex
         },
+        { 
+            title: '查看使用', 
+            action: (e) => (ct.showInBorders(e.dataIndex), ct.update()),
+            disabled: (e) => !e.dataIndex
+        },
+        {
+            title: (e) => ct.marked.includes(e.dataIndex) ? '取消标记' : '标记顶点', 
+            action: (e) => (ct.marked.includes(e.dataIndex) ? 
+                    ct.unmarkNode(e.dataIndex) : ct.markNode(e.dataIndex), 
+                console.log('当前标记', ct.marked), ct.updateOptions())
+        },
         { divider: true },
         { 
-            title: (opt.simulationStop ? '继续' : '固定') + '移动', 
+            title: (opt.simulationStop ? '开启运动' : '固定视图'), 
             action: () => {
-                ct.simulation?.stop(); 
-                opt.simulationStop = !opt.simulationStop; 
+                opt.simulationStop = !opt.simulationStop;
+                ct.simulation[opt.simulationStop ? 'stop' : 'restart']();
                 ct.updateOptions();
             }
         },
@@ -40,7 +54,7 @@ export const nodeMenu = (ct: Chart) => {
                     ct.update();
                 }
             },
-            { devider: true },
+            { divider: true },
             { 
                 title: genTitle('入边高亮', () => opt.highlightRequiredBy), 
                 action: () => (opt.highlightRequiredBy = !opt.highlightRequiredBy, ct.updateOptions())
@@ -50,6 +64,9 @@ export const nodeMenu = (ct: Chart) => {
             }, {
                 title:  genTitle('路径高亮', () => opt.highlightPath),
                 action: () => (opt.highlightPath = !opt.highlightPath, ct.updateOptions())
+            }, {
+                title:  genTitle('分量高亮', () => opt.highlightComponent),
+                action: () => (opt.highlightComponent = !opt.highlightComponent, ct.updateOptions())
             }, {
                 title:  genTitle('背景淡化', () => opt.fading),
                 action: () => (opt.fading = !opt.fading, ct.updateOptions())

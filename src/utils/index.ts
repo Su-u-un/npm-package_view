@@ -1,6 +1,36 @@
 // import {join} from "path"
 import {store} from '@/store.js'
 import {marked} from 'marked'
+import { join } from 'path-browserify';
+
+const READMEs = ["readme.md", "Readme.md", "README.md", "ReadMe.md"];
+const PACKAGE_JSON = "package.json";
+
+export async function readInfo(root: string, uri: string) {
+  const abs = (...dir: string[]) => join(root, ...dir);
+
+  console.log("Try to FETCH", abs(uri, PACKAGE_JSON));
+  let res = await fetch(abs(uri, PACKAGE_JSON));
+  const pkgJson = await res.json();
+  const { name, version, description } = pkgJson;
+
+  store.data = {
+    name, version, description
+  }
+
+  for(const n of READMEs) {
+    try {
+      console.log("Trying to FETCH", abs(uri, n))
+      res = await fetch(abs(uri, n));
+      const text = await res.text()
+      store.readme = marked(text);
+      break;
+    } catch {
+      continue;
+    }
+  }
+  
+}
 
 // 传入点击得到的节点信息，传入所有依赖的数据
 export function readme(uri,nodes){
@@ -8,6 +38,8 @@ export function readme(uri,nodes){
   
   // 得到数据
   const {data} = uri
+
+  
   // 被谁依赖
   let parent = []
   data.requiredBy.forEach(item=>{
