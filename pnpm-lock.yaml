@@ -5,9 +5,6 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
-  '@types/path-browserify':
-    specifier: ^1.0.0
-    version: 1.0.0
   '@vue/babel-helper-vue-jsx-merge-props':
     specifier: ^1.4.0
     version: registry.npmmirror.com/@vue/babel-helper-vue-jsx-merge-props@1.4.0
@@ -70,6 +67,9 @@ devDependencies:
   '@types/node':
     specifier: ^20.4.10
     version: registry.npmmirror.com/@types/node@20.4.10
+  '@types/path-browserify':
+    specifier: ^1.0.0
+    version: 1.0.0
   '@vitejs/plugin-vue':
     specifier: ^4.2.3
     version: registry.npmmirror.com/@vitejs/plugin-vue@4.2.3(vite@4.4.6)(vue@3.3.4)
@@ -583,7 +583,7 @@ packages:
 
   /@types/path-browserify@1.0.0:
     resolution: {integrity: sha512-XMCcyhSvxcch8b7rZAtFAaierBYdeHXVvg2iYnxOV0MCQHmPuRRmGZPFDRzPayxcGiiSL1Te9UIO+f3cuj0tfw==}
-    dev: false
+    dev: true
 
   /@types/qs@6.9.7:
     resolution: {integrity: sha512-FGa1F62FT09qcrueBA6qYTrJPVDzah9a+493+o2PCXsesWHIn27G98TsSMs3WPNbZIEj4+VJf6saSFpvD+3Zsw==}
