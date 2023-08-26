@@ -4,21 +4,12 @@
       <el-card class="mes-card">
         <template #header>
           <div class="card-header">
-            <h3>{{ data.name }}</h3>
+            <h3>
+              <span class="package-name">{{ data.name ?? 'UNNAMED' }}</span> 
+              <span class="package-version">{{ data.version ? ' v' + data.version : '' }}</span></h3>
           </div>
         </template>
         <div>{{ data.description }}</div>
-        <div>
-          <div v-for="item in data.parent">{{ item }}</div>
-        </div>
-        <div>
-          <div v-for="item in data.children">
-            <h4>name：{{ item.name }}</h4>
-            <div>版本范围：{{ item.range }}</div>
-            <div>依赖类型：{{ item.type }}</div>
-            <div>依赖是否可选：{{ item.optional }}</div>
-          </div>
-        </div>
       </el-card>
     </div>
     <div class="readme" v-if="readme">
@@ -81,10 +72,27 @@ pre>code {
   margin: 1em;
 }
 
+.package-name {
+  font-family: sans-serif;
+  font-size: larger
+}
+
+.package-version {
+  font-family: sans-serif;
+  font-size: medium;
+  float: right;
+}
+
+h3 {
+  width: 100%;
+  padding-right: 2em;
+}
+
 .card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  height: 2em;
 }
 
 .mes-card {

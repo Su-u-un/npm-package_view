@@ -4,13 +4,6 @@ import { markedHighlight } from "marked-highlight";
 import { join } from "path-browserify";
 import axios from "axios";
 import hljs from "highlight.js";
-//import hljs from "highlight.js/lib/core";
-
-// const langList = ['javascript', 'typescript', 'cpp', 'bash', 'shell', 'html', 'css'];
-// const langDirMap = langList.map(e => [e, `highlight.js/lib/languages/${e}`])
-// for(const lang of langDirMap) {
-//   hljs.registerLanguage(lang[0], await import(lang[1]));
-// }
 
 const marked = new Marked(
   markedHighlight({
@@ -45,17 +38,12 @@ export async function readInfo(...uri: string[]) {
   let res = await staticQuest.get(rel(PACKAGE_JSON));
   console.log(res);
   const pkgJson = res.data;
-  const { name, version, description } = pkgJson;
 
-  store.data = {
-    name,
-    version,
-    description,
-  };
+  store.data = pkgJson;
 
   for (const n of READMEs) {
     try {
-      console.log("Trying to FETCH", abs(n));
+      console.log("Trying to GET", abs(n));
       res = await staticQuest.get(rel(n));
       const text = res.data;
       store.readme = marked.parse(text);
