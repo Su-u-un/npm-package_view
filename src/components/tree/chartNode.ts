@@ -1,57 +1,43 @@
-import { DirectedDiagram, LinkMeta } from "./types";
+import { SCComponent, getScc } from "@/utils/diagram";
+import { DiagramNode, DirectedDiagram, LinkMeta } from "./types";
 
-export class Hierarchy{
-    constructor(
-        data:DirectedDiagram
-    ){
-        this.id = data[0].id
-        this.version = data[0].version
-        this.dir = data[0].dir
-        this.meta = data[0].meta
-        this.requiring = data[0].requiring
-        this.requiredBy = data[0].requiredBy
+export class Hierarchy {
+  static createHierarchy(data: DirectedDiagram): Hierarchy {
+    const protoComps = getScc(
+      0,
+      data,
+      (i) => data[i].requiring,
+      (i) => data[i].requiredBy
+    );
+    const rootCompIndex = protoComps.findIndex(c => c.nodes.includes(0));
+    const root = new Hierarchy(data, protoComps[rootCompIndex].nodes);
+    root.children = Hierarchy.trans(data, protoComps, rootCompIndex);
+    return root;
+  }
+  
+  private constructor(data: DirectedDiagram, dataIndices: number[]) {
+    this.nodes = dataIndices.map(i => data[i]);
+    this.value = Math.floor(Math.random() * 100);
+  }
+  nodes: DiagramNode[]
+  children?: Hierarchy[]
+  value: number
 
-        this.children = this.trans(data,0)
-    }
-
-    id: string;
-    version: string;
-    dir: string | null;
-    meta: LinkMeta[];
-    requiring: number[];
-    requiredBy: number[];
-    children?:object[]
-
-    trans(data:DirectedDiagram, index:number) {
-        const root = data[index];
-        const total = root.requiring.map((childIndex) => {
-          const child = data[childIndex]
-          if(child.requiring.length){
-            const children = []
-            let temp = this.trans(data,childIndex)
-            temp.forEach(e=>{
-                children.push(e)
-            })
-            return Object.assign(child,{"children":children})
-          }
-          else{
-            return child
-          }
-        });
-
-        // 添加value
-        function func(data:any) {
-            data.forEach((item:any) => {
-            if (!item.children) {
-                item.value = Number((Math.random() * 100).toFixed(0))
-            }
-            else {
-                func(item.children)
-            }
-            })
-        }
-        func(total)
-        
-        return total
-      }
+  static trans(
+    data: DirectedDiagram, 
+    comps: SCComponent[], 
+    i: number, 
+    hash = new Map<number, Hierarchy[]>()
+  ): Hierarchy[] {
+    if(hash.has(i)) { return hash.get(i)!; }
+    const root = comps[i];
+    const children = root.outer.outs
+      .filter(ci => ci !== i).map<Hierarchy>(ci => {
+        const child = new Hierarchy(data, comps[ci].nodes);
+        child.children = Hierarchy.trans(data, comps, ci, hash);
+        return child;
+      });
+    hash.set(i, children);
+    return children;
+  }
 }

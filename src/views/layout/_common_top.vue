@@ -2,7 +2,7 @@
   <el-header>
     <div class="left" ref="nmd">
       <div class="logo" @click="handleLogo">
-        NPM-PKG-ANALYSIS
+        NPM依赖包可视化
       </div>
       <el-menu 
         :router="true" 
@@ -10,8 +10,8 @@
         :ellipsis="false" 
         background-color="transparent" 
         :default-active="activeIndex">
-        <el-menu-item index="Force_Directed">Force_Directed</el-menu-item>
-        <el-menu-item index="Tree">Tree</el-menu-item>
+        <el-menu-item index="Force_Directed">力导图</el-menu-item>
+        <el-menu-item index="Tree">层次图</el-menu-item>
         <el-menu-item index="sunburst">sunburst</el-menu-item>
       </el-menu>
     
@@ -50,6 +50,9 @@ function handleLogo(){
 }
 .logo{
   cursor: pointer;
+  font-family: hack, consolas, 有爱圆体, 华文中圆, 华文细黑, 华文黑体, 黑体, sans-serif;
+  font-size: large;
+  font-weight: 800;
 }
 .left{
   display: flex;

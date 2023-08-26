@@ -23,7 +23,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { store } from '@/store'
-import 'highlight.js/scss/lightfair.scss';
+import 'highlight.js/scss/monokai.scss';
 
 const data = computed(() => store.data)
 const readme = computed(() => store.readme)
@@ -55,7 +55,6 @@ pre>code {
   width: 40%;
   height: calc(100vh - 60px);
   border-top: none;
-  width:100vh;
 }
 
 ::-webkit-scrollbar {

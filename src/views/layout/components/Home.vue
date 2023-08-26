@@ -37,7 +37,7 @@
             搜索范围
           </div>
         </template>
-        <el-tag size="small" v-for="(value,key) in data.scope">{{ value&&key }}</el-tag>
+        <el-tag size="small" v-for="(value, key) in data.scope" :key="key">{{ value&&key }}</el-tag>
       </el-descriptions-item>
     </el-descriptions>
 
@@ -60,59 +60,62 @@
       </template>
 
       <div>
-        <h4>已检测依赖包-{{ data.detected }}个</h4>
+        <h4>已安装-{{ data.detected }}个</h4>
       </div>
       <div>
-        <h4>已分析依赖包-{{ data.analyzed }}个</h4>
+        <h4>已分析-{{ data.analyzed }}个</h4>
       </div>
       
 
-      <h4>未安装的必需包-{{ data.notFound.length ?data.notFound.length:0}}个</h4>
-      <div>
+      <h4>未安装-{{ data.notFound.length ?data.notFound.length:0}}个</h4>
+      <div class="items">
         <el-popover
           placement="right"
           trigger="hover"
-          v-for="item in data.notFound"
+          v-for="(item, i) in data.notFound"
+          :key="i"
         >
           <template #reference>
-            <el-button>{{ item.id }}</el-button>
+            <el-button class="item">{{ item.by }} -&gt; {{ item.id }}</el-button>
           </template>
           <div>
             类型：{{item.type}}
           </div>
           <div>
-            版本范围：{{item.range}}
+            版本：{{item.range}}
           </div>
         </el-popover>
       </div>
-      <h4>未安装的可选包-{{ data.optionalNotMeet.length }}个</h4>
-      <div>
+      <h4>未安装(可选)-{{ data.optionalNotMeet.length }}个</h4>
+      <div class="items">
         <el-popover
           placement="right"
           trigger="hover"
-          v-for="item in data.optionalNotMeet"
+          v-for="(item, i) in data.optionalNotMeet"
+          :key="i"
         >
           <template #reference>
-            <el-button>{{ item.id }}</el-button>
+            <el-button class="item">{{ item.id }}</el-button>
           </template>
           <div>
             类型：{{item.type}}
           </div>
           <div>
-            版本范围：{{item.range}}
+            版本：{{item.range}}
           </div>
         </el-popover>
       </div>
 
-      <h4>版本不符包-{{ data.rangeInvalid.length }}个</h4>
-      <div>
+      <h4>版本不符-{{ data.rangeInvalid.length }}个</h4>
+      <div class="items">
         <el-popover
           placement="right"
           trigger="hover"
-          v-for="item in data.rangeInvalid"
+          v-for="(item, i) in data.rangeInvalid"
+          :key="i"
         >
           <template #reference>
-            <el-button>{{ item.id }}</el-button>
+            <el-button class="item">{{ item.id }}</el-button>
           </template>
           <div>
             类型：{{item.type}}
@@ -131,33 +134,29 @@
 
       <h4>未使用包</h4>
       <div>
-        <div v-for="item in data.unused">
-          包路径：{{ item }}
-        </div>
+        <li v-for="(item, i) in data.unused" :key="i">
+          {{ item }}
+        </li>
       </div>
     </el-card>
   </div>
 </template>
 
 <script setup lang="ts">
-import {onMounted,onBeforeMount,ref} from "vue"
+import {onMounted,onBeforeMount,ref, Ref} from "vue"
 
-let data = ref({})
-
+let data: Ref<any> = ref({})
 
 onBeforeMount(async ()=>{
-  await fetch("output/eval-test-pkg.json").then(res=>res.json()).then(
+  await fetch("json/eval.json").then(res=>res.json()).then(
       temp=>{
         data.value = temp
       }).catch(err=>err)
-
-
 })
-
 
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .analyze{
   display: flex;
   flex-direction: column;
@@ -176,6 +175,11 @@ onBeforeMount(async ()=>{
   margin-top: 20px;
   margin-bottom: 20px;
 }
+
+.item {
+  margin: 0.3em;
+}
+
 .card{
   height: 100%;
 }

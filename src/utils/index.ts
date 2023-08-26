@@ -4,6 +4,7 @@ import { markedHighlight } from "marked-highlight";
 import { join } from "path-browserify";
 import axios from "axios";
 import hljs from "highlight.js";
+import dompurify from "dompurify";
 
 const marked = new Marked(
   markedHighlight({
@@ -30,6 +31,7 @@ const staticQuest = axios.create({
 });
 
 export async function readInfo(...uri: string[]) {
+  uri[0].includes(':') && (uri = ['.']);
   uri = uri.map((e) => e.replace("\\", "/"));
   const abs = (...dir: string[]): string => join(staticUrl, ...uri, ...dir);
   const rel = (...dir: string[]): string => join(...uri, ...dir);
@@ -46,7 +48,7 @@ export async function readInfo(...uri: string[]) {
       console.log("Trying to GET", abs(n));
       res = await staticQuest.get(rel(n));
       const text = res.data;
-      store.readme = marked.parse(text);
+      store.readme = dompurify.sanitize((await marked.parse(text))!);
       break;
     } catch {
       continue;
@@ -86,8 +88,8 @@ export function readme(uri: any, nodes: any) {
 
   fetch(b)
     .then((res) => res.text())
-    .then((data) => {
-      let temp = marked.parse(data);
+    .then(async (data) => {
+      let temp = dompurify.sanitize((await marked.parse(data))!);
       store.readme = temp;
     })
     .catch((err) => err);
