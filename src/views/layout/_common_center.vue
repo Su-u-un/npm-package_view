@@ -1,7 +1,7 @@
 <template>
   <div id="center" ref="centerElement">
-    <div  class="view">
-      <router-view :width="width" :height="height"/>
+    <div class="view">
+      <router-view/>
     </div>
     <div class="resize" @mousedown="handleMousedown" ref="resize"></div>
   </div>
@@ -9,7 +9,7 @@
 
 <script lang="ts" setup>
 import {ref,onMounted,computed, onUpdated} from 'vue'
-import {store} from "@/store.js"
+import {store} from "@/store"
 
 
 let resizeBox:any = ref(null)
@@ -56,32 +56,10 @@ function onMousemove (e:any) {
   const CurBoxLen = curLen + moveLen // resize[i].left+移动的距离=左边区域最后的宽度
   const rightBoxLen = dragBox.clientWidth - CurBoxLen - otherBoxWidth // 右侧宽度=总宽度-左侧宽度-其它盒子宽度
   // 当最小宽度时，无法继续拖动
-  if (CurBoxLen <= 500 || rightBoxLen <= 500) return
+  if (CurBoxLen <= 600 || rightBoxLen <= 600) return
   currentBox.style.width = CurBoxLen + 'px'// 当前盒子的宽度
   resizeBox.style.left = CurBoxLen // 设置左侧区域的宽度
   rightBox.style.width = rightBoxLen + 'px'
-  
-  let svg = document.getElementById('svg');
-  if (svg) {
-    svg.setAttribute("preserveAspectRatio", "xMinYMin meet");
-    // svg.setAttribute("viewBox", `-${width.value/2} -${height.value/2} ${width.value} ${height.value}`);
-    svg.style.overflow = "hidden";
-    let viewBoxVal:string = svg.getAttribute("viewBox")!;
-    if (viewBoxVal) {
-      let viewBoxWidth:any = viewBoxVal.split(",")[2];
-      let viewBoxHeight:any = viewBoxVal.split(",")[3];
-      
-      
-      svg.removeAttribute("width");
-      svg.removeAttribute("height");
-      
-      let setWidth:any = currentBox.clientWidth;
-      let setHeight:any = setWidth * viewBoxHeight / viewBoxWidth;
-      svg.setAttribute("width", setWidth);
-      svg.setAttribute("height", setHeight);
-    }
-  }
-  
 }
 
 function onMouseup () {
@@ -89,29 +67,18 @@ function onMouseup () {
   document.removeEventListener('mousemove', onMousemove)
 }
 
-let centerElement:any = ref(null)
-let width = ref(null)
-let height = ref(null)
-const resize = ref<any>(null)
-onMounted(() => {
-    if (centerElement.value) {
-      width.value = centerElement.value.offsetWidth;
-      height.value = centerElement.value.offsetHeight;
-    }
-    resize.value.style = "border-left:5px solid "+color
-});
-
-const color = computed(()=>store.color)
-
 
 </script>
 
 <style scoped>
 #center{
+  height:calc(100vh - 60px);
   position: relative;
-  flex:1;
-  display: flex;
-  flex-direction: row;
+  width:100%;
+}
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
 }
 .resize{
   position: absolute;
@@ -125,7 +92,10 @@ const color = computed(()=>store.color)
   border-left: 5px solid var(--el-border-color) ;
 }
 .view{
+  height:calc(100vh - 60px);
   display: flex;
-  align-items: center;
+  justify-content: center;
+  width:100%;
+  overflow: auto;
 }
 </style>

@@ -2,10 +2,9 @@
 import * as d3 from 'd3';
 import D3Menu from "./lib/d3-context-menu";
 import { nodeMenu } from "./chartMenu";
-import { getPaths, getScc, includeChinese, limit } from "./utils";
-import { Node, Link, DiagramNode, DirectedDiagram, LinkMeta } from './chartNode';
+import { getPaths, getScc, includeChinese, limit } from "../../utils/diagram";
+import { Node, Link, DiagramNode, DirectedDiagram } from './chartNode';
 import { readInfo } from '@/utils';
-import { join } from 'path-browserify';
 
 const createMenu = D3Menu<any, any>(d3);
 

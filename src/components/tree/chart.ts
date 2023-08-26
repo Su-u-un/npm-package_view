@@ -2,7 +2,6 @@ import * as d3 from 'd3'
 import {DirectedDiagram} from "./types"
 import {Hierarchy } from './chartNode';
 
-
 export type ChartOption = {
     duration:number;
     showDesc:boolean;
@@ -45,10 +44,9 @@ export default class Chart{
     initData(){
         const {data} = this
         const hierarchy = new Hierarchy(data)
-        console.log(hierarchy);
         
         this.root = Object.assign(d3.hierarchy(hierarchy),{x0:0,y0:0})
-        // 定义Tree层级，并设置宽高
+        // 定义Tree层级
         this.treeMap = d3.tree().nodeSize([50, 50]);
         
         this.root.children!.forEach(collapse)
@@ -124,9 +122,8 @@ export default class Chart{
         div.append('p').attr('class','depth')
     }
     update(){
-        // 设置节点的x、y位置信息
-        let treeData= this.treeMap(this.root);
         // 计算新的Tree层级
+        let treeData= this.treeMap(this.root);
         this.nodes = treeData.descendants()
         this.links = treeData.descendants().slice(1);
         
@@ -233,6 +230,8 @@ export default class Chart{
 
     updateLinks(){
         const link = this.panel.selectAll("path.link").data(this.links, (d: any) => d.id)
+
+
         const root = this.clickNode
 
         // 添加enter操作，添加类名为link的path元素
@@ -250,17 +249,15 @@ export default class Chart{
             .on("mouseout",  function(this){
                 d3.select(this).style("stroke", '#CCC');
             })
-            .on("click", (d: any) => {
-                alert(d.parent.data.id + ' -> ' + d.data.id);
-        })
-        // 默认位置为当前父节点的位置
-        .attr("d", function () {
-            let o = {
-                x: root.x0,
-                y: root.y0
-            };
-            return diagonalReverse(o, o);
-        });
+            .on("click", (d: any) => {alert(d.parent.data.id + ' -> ' + d.data.id);})
+            // 默认位置为当前父节点的位置
+            .attr("d", function () {
+                let o = {
+                    x: root.x0,
+                    y: root.y0
+                };
+                return diagonalReverse(o, o);
+            });
 
         // enter操作中，添加text，同时添加与path匹配的textPath
         link

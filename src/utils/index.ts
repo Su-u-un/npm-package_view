@@ -1,4 +1,4 @@
-import { store } from "@/store.js";
+import { store } from "@/store";
 import { Marked } from "marked";
 import { markedHighlight } from "marked-highlight";
 import { join } from "path-browserify";

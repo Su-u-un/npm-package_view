@@ -1,0 +1,7 @@
+import { UnwrapNestedRefs } from "vue"
+
+export const store: UnwrapNestedRefs<({
+    data: any,
+    readme: string,
+    color: string
+})>

@@ -1,4 +1,4 @@
-import { Node } from './chartNode'
+import { Node } from '../components/forceDirect/chartNode'
 
 export type PosTuple = [number, number];
 
@@ -74,7 +74,7 @@ export function getDiagramGroups(
 ): Node[][] {
     const roots = [...nodes.entries()]
         .filter(e => !getRevAdjacent(e[0]).length);
-    const groups = [];
+    const groups: Node[][] = [];
     for(const [root] of roots) {
         const path = getPaths(root, nodes, getAdjacent);
         groups.push(nodes.filter((e, i) => path[i] !== null));

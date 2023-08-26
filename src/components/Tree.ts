@@ -1,5 +1,5 @@
 import * as d3 from 'd3'
-import {store} from "@/store.js"
+import {store} from "@/store"
 import {readme} from '../utils'
 
 // 参数的定义
@@ -69,14 +69,17 @@ class view implements View {
 
 
 function template(settings:Option) {
+  let { width, height } = settings;
+  width ??= globalThis.innerWidth;
+  height ??= globalThis.innerHeight;
   // 创建svg
   const svg = d3
     .select(settings.dom)
     .append('svg')
-    .attr('width', settings.width!)
-    .attr('height', settings.height!)
+    .attr('width', width)
+    .attr('height', height)
     .attr('id','svg')
-    .attr('viewBox',`-${settings.width/2},-${settings.height/2},${settings.width},${settings.height}`)
+    .attr('viewBox',`-${width/2},-${height/2},${width},${height}`)
   // 创建视图
   view.panel = svg
     .append("g")

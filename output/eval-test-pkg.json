@@ -1,0 +1,141 @@
+{
+	"name": "test-pkg",
+	"pkgRoot": "/home/runner/app/npm-package/test-pkg",
+	"manager": "auto",
+	"depth": null,
+	"scope": {
+		"norm": true,
+		"dev": true,
+		"peer": true
+	},
+	"analyzed": 101,
+	"notFound": [
+		{
+			"id": "eslint",
+			"type": "dev",
+			"range": "^8.46.0",
+			"by": "ROOT"
+		},
+		{
+			"id": "json2module",
+			"type": "dev",
+			"range": "^0.0.3",
+			"by": "ROOT"
+		},
+		{
+			"id": "tslint",
+			"type": "dev",
+			"range": "^6.1.3",
+			"by": "ROOT"
+		},
+		{
+			"id": "typescript",
+			"type": "dev",
+			"range": "^5",
+			"by": "ROOT"
+		},
+		{
+			"id": "typescript",
+			"type": "dev",
+			"range": "^5",
+			"by": "ROOT"
+		},
+		{
+			"id": "typescript",
+			"type": "dev",
+			"range": "^5",
+			"by": "ROOT"
+		},
+		{
+			"id": "typescript",
+			"type": "dev",
+			"range": "^5",
+			"by": "ROOT"
+		},
+		{
+			"id": "typescript",
+			"type": "dev",
+			"range": "^5",
+			"by": "ROOT"
+		},
+		{
+			"id": "typescript",
+			"type": "dev",
+			"range": "^5",
+			"by": "ROOT"
+		},
+		{
+			"id": "typescript",
+			"type": "dev",
+			"range": "^5",
+			"by": "ROOT"
+		},
+		{
+			"id": "typescript",
+			"type": "dev",
+			"range": "^5",
+			"by": "ROOT"
+		},
+		{
+			"id": "typescript",
+			"type": "dev",
+			"range": "^5",
+			"by": "ROOT"
+		}
+	],
+	"rangeInvalid": [
+		{
+			"id": "@types/node",
+			"range": "^20.4.8",
+			"by": "ROOT",
+			"dir": "node_modules",
+			"version": "20.4.5",
+			"type": "dev"
+		}
+	],
+	"optionalNotMeet": [
+		{
+			"id": "bufferutil",
+			"type": "peer",
+			"range": "^4.0.1",
+			"by": "node_modules/ws@8.13.0"
+		},
+		{
+			"id": "utf-8-validate",
+			"type": "peer",
+			"range": ">=5.0.2",
+			"by": "node_modules/ws@8.13.0"
+		},
+		{
+			"id": "bufferutil",
+			"type": "peer",
+			"range": "^4.0.1",
+			"by": "node_modules/engine.io/node_modules/ws@8.11.0"
+		},
+		{
+			"id": "utf-8-validate",
+			"type": "peer",
+			"range": "^5.0.2",
+			"by": "node_modules/engine.io/node_modules/ws@8.11.0"
+		},
+		{
+			"id": "bufferutil",
+			"type": "peer",
+			"range": "^4.0.1",
+			"by": "node_modules/socket.io-adapter/node_modules/ws@8.11.0"
+		},
+		{
+			"id": "utf-8-validate",
+			"type": "peer",
+			"range": "^5.0.2",
+			"by": "node_modules/socket.io-adapter/node_modules/ws@8.11.0"
+		}
+	],
+	"detected": 101,
+	"coverage": 1,
+	"unused": [
+		"node_modules/progress@2.0.3"
+	],
+	"notDetected": [],
+	"notAnalyzed": []
+}

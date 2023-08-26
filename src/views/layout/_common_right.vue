@@ -22,7 +22,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { store } from '@/store.js'
+import { store } from '@/store'
 import 'highlight.js/scss/lightfair.scss';
 
 const data = computed(() => store.data)
@@ -55,7 +55,7 @@ pre>code {
   width: 40%;
   height: calc(100vh - 60px);
   border-top: none;
-  overflow: auto;
+  width:100vh;
 }
 
 ::-webkit-scrollbar {
