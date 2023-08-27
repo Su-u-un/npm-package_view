@@ -61,6 +61,7 @@ export default class Chart{
             .innerRadius(d => d.y0 * radius)
             .outerRadius(d => Math.max(d.y0 * radius, d.y1 * radius - 1))
         
+        
     }
     template(){
         const { id } = this;
@@ -96,103 +97,10 @@ export default class Chart{
         svg.call(zoom).on("dblclick.zoom", () => {});
 
     }
-    update(datum){
-        const ct = this
-        // 计算新的Sun层级
-        let sunData = this.sunMap(this.root)
-        sunData.each(d => d.current = d);
+    update(){
         
-        // 获取新数据
-        this.items = sunData.descendants().slice(1);
-        // 返回按钮更新
-        
-        // 中心空白处，点击返回上级
-        ct.parent = svg.append("circle")
-            .datum(datum)
-            .attr("r", radius)
-            .attr("fill", "none")
-            .attr("pointer-events", "all")
-            .on("click", function(e,p){ct.clicked(e,p)});
-
-        
-        this.updateItems()
     }
 
-    updateItems(){
-        const ct = this
-        const item = this.panel.selectAll("path").data(this.items)
-            .join("path")
-            .attr("fill", d => { while (d.depth > 1) d = d.parent; return color(d.data.name); })
-            .attr("fill-opacity", d => arcVisible(d.current) ? (d.children ? 0.6 : 0.4) : 0)
-            .attr("pointer-events", d => arcVisible(d.current) ? "auto" : "none")
-            .attr("d", d => arc(d.current))
-            .filter(d => d.children)
-            .style("cursor", "pointer")
-            .on("click", clicked);
-
-        // 每一份的名称
-        const text = this.label.selectAll("text").data(this.items)
-            .join("text")
-            .attr("pointer-events", "none")
-            .attr("text-anchor", "middle")
-            .style("user-select", "none")
-            .attr("dy", "0.35em")
-            .attr("fill-opacity", d => +labelVisible(d.current))
-            .attr("transform", d => labelTransform(d.current))
-            .text(d => d.data.name);
-
-        
-
-    }
-
-    clicked(event, p) {
-        parent.datum(p.parent || sunData);
-
-        this.sunData.each(d => d.target = {
-            x0: Math.max(0, Math.min(1, (d.x0 - p.x0) / (p.x1 - p.x0))) * 2 * Math.PI,
-            x1: Math.max(0, Math.min(1, (d.x1 - p.x0) / (p.x1 - p.x0))) * 2 * Math.PI,
-            y0: Math.max(0, d.y0 - p.depth),
-            y1: Math.max(0, d.y1 - p.depth)
-        });
-
-        const t = svg.transition().duration(750);
-
-        // Transition the data on all arcs, even the ones that aren’t visible,
-        // so that if this transition is interrupted, entering arcs will start
-        // the next transition from the desired position.
-        this.items.transition(t)
-            .tween("data", d => {
-                const i = d3.interpolate(d.current, d.target);
-                return t => d.current = i(t);
-            })
-            .filter(function(d) {
-            return +this.getAttribute("fill-opacity") || arcVisible(d.target);
-            })
-            .attr("fill-opacity", d => arcVisible(d.target) ? (d.children ? 0.6 : 0.4) : 0)
-            .attr("pointer-events", d => arcVisible(d.target) ? "auto" : "none") 
-
-            .attrTween("d", d => () => arc(d.current));
-
-        this.label.filter(function(d) {
-            return +this.getAttribute("fill-opacity") || labelVisible(d.target);
-            }).transition(t)
-            .attr("fill-opacity", d => +labelVisible(d.target))
-            .attrTween("transform", d => () => labelTransform(d.current));
-    }
+   
 
 }
-
-function arcVisible(d) {
-    return d.y1 <= 3 && d.y0 >= 1 && d.x1 > d.x0;
-  }
-  
-  function labelVisible(d) {
-    return d.y1 <= 3 && d.y0 >= 1 && (d.y1 - d.y0) * (d.x1 - d.x0) > 0.03;
-  }
-  
-  function labelTransform(d) {
-    const x = (d.x0 + d.x1) / 2 * 180 / Math.PI;
-    const y = (d.y0 + d.y1) / 2 * radius;
-    return `rotate(${x - 90}) translate(${y},0) rotate(${x < 180 ? 0 : 180})`;
-  }
-
