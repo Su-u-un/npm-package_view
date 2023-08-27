@@ -20,14 +20,14 @@ const router = createRouter({
           component:Home
         },
         {
-          path:'/Tree',
-          name:'Tree',
-          component:()=>import ('../views/charts/Tree.vue')
+          path:'/tree',
+          name:'tree',
+          component:()=>import ('../views/charts/tree.vue')
         },
         {
-          path:'/Force_Directed',
-          name:'Force_Directed',
-          component:()=>import ('../views/charts/Force_Directed.vue')
+          path:'/forceDirect',
+          name:'forceDirect',
+          component:()=>import ('../views/charts/forceDirect.vue')
         },
         {
           path:'/sunburst',
@@ -35,12 +35,7 @@ const router = createRouter({
           component:()=>import ('../views/charts/sunburst.vue')
         }
       ]
-    },
-    // {
-    //   path: '/about',
-    //   name: 'about',
-    //   component: () => import('../views/AboutView.vue')
-    // }
+    }
   ]
 })
 

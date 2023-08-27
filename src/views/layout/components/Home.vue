@@ -1,11 +1,12 @@
 <template>
-  
-  <div class="analyze" v-if="!(JSON.stringify(data)==='{}')">
+  <div id="analyze" v-if="!(JSON.stringify(data)==='{}')">
     <el-descriptions
       class="des"
       title="分析配置"
-      :column="4"
+      :column="1"
       border
+      direction="vertical"
+
     >
       <el-descriptions-item >
         <template #label>
@@ -60,15 +61,16 @@
       </template>
 
       <div>
-        <h4>已检测依赖包-{{ data.detected }}个</h4>
+        <h5>已检测依赖包-{{ data.detected }}个</h5>
       </div>
       <div>
-        <h4>已分析依赖包-{{ data.analyzed }}个</h4>
+        <h5>已分析依赖包-{{ data.analyzed }}个</h5>
       </div>
       
 
-      <h4>未安装的必需包-{{ data.notFound.length ?data.notFound.length:0}}个</h4>
-      <div>
+      <h5>未安装的必需包-{{ data.notFound.length ?data.notFound.length:0}}个</h5>
+      <div v-if="data.notFound.length">
+        <span style="margin-left: 12px;"></span>
         <el-popover
           placement="right"
           trigger="hover"
@@ -85,8 +87,9 @@
           </div>
         </el-popover>
       </div>
-      <h4>未安装的可选包-{{ data.optionalNotMeet.length }}个</h4>
-      <div>
+      <h5>未安装的可选包-{{ data.optionalNotMeet.length?data.optionalNotMeet.length:0 }}个</h5>
+      <div v-if="data.optionalNotMeet.length">
+        <span style="margin-left: 12px;"></span>
         <el-popover
           placement="right"
           trigger="hover"
@@ -104,8 +107,9 @@
         </el-popover>
       </div>
 
-      <h4>版本不符包-{{ data.rangeInvalid.length }}个</h4>
-      <div>
+      <h5>版本不符包-{{ data.rangeInvalid.length?data.rangeInvalid.length:0 }}个</h5>
+      <div v-if="data.rangeInvalid.length">
+        <span style="margin-left: 12px;"></span>
         <el-popover
           placement="right"
           trigger="hover"
@@ -129,39 +133,43 @@
         </el-popover>
       </div>
 
-      <h4>未使用包</h4>
+      <h5>未使用包</h5>
       <div>
-        <div v-for="item in data.unused">
-          包路径：{{ item }}
-        </div>
+        <p v-for="(item,index) in data.unused">
+          {{index+1}}.包路径：{{ item }}
+        </p>
       </div>
     </el-card>
   </div>
 </template>
 
 <script setup lang="ts">
-import {onMounted,onBeforeMount,ref} from "vue"
+import {onBeforeMount,ref} from "vue"
 
 let data = ref({})
 
 
-onBeforeMount(async ()=>{
+
+onBeforeMount(()=>{
+   update()
+})
+
+
+async function update(){
   await fetch("output/eval-test-pkg.json").then(res=>res.json()).then(
       temp=>{
         data.value = temp
       }).catch(err=>err)
-
-
-})
+}
 
 
 </script>
 
 <style scoped>
-.analyze{
+#analyze{
   display: flex;
   flex-direction: column;
-  width:700px;
+  width: 500px;
 }
 
 .el-descriptions {
@@ -175,9 +183,6 @@ onBeforeMount(async ()=>{
 .des {
   margin-top: 20px;
   margin-bottom: 20px;
-}
-.card{
-  height: 100%;
 }
 .el-card{
   overflow: visible !important;

@@ -28,7 +28,9 @@ d3.json('output/test.json')
     console.error(error);
   })
     function click(){
-      readme(my.chart.node,my.chart.nodes);
+      console.log('111');
+      
+      // readme(my.chart.node,my.chart.nodes);
     }
 
 </script>

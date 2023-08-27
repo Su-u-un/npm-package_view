@@ -29,12 +29,4 @@ fetch('output/test.json')
 </script>
 
 <style scoped>
-body {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-#chart {
-  display: block;
-}
 </style>

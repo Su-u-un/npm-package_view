@@ -4,6 +4,8 @@ import {marked} from 'marked'
 
 // 传入点击得到的节点信息，传入所有依赖的数据
 export function readme(uri,nodes){
+  console.log("111");
+  
   console.log(uri,nodes);
   
   // 得到数据

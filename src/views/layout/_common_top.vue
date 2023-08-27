@@ -1,7 +1,7 @@
 <template>
   <el-header>
     <div class="left" ref="nmd">
-      <div class="logo" @click="handleLogo">
+      <div>
         NPM-PKG-ANALYSIS
       </div>
       <el-menu 
@@ -10,9 +10,8 @@
         :ellipsis="false" 
         background-color="transparent" 
         :default-active="activeIndex">
-        <el-menu-item index="Force_Directed">Force_Directed</el-menu-item>
-        <el-menu-item index="Tree">Tree</el-menu-item>
-        <el-menu-item index="sunburst">sunburst</el-menu-item>
+        <el-menu-item v-for="item in routes" :index="item.path">{{ item.name }}</el-menu-item>
+
       </el-menu>
     
     </div>
@@ -23,20 +22,21 @@
 </template>
 
 <script lang="ts" setup>
-import {computed, ref,onMounted} from 'vue'
-import {useRouter} from "vue-router"
+import {computed} from 'vue'
+import {useRoute,useRouter,onBeforeRouteUpdate} from "vue-router"
 import {clear} from "@/utils"
 
+const route = useRoute()
 const router = useRouter()
-const activeIndex = computed(()=>router.name )
 
-function handleLogo(){
-  router.push({
-    name:'Home'
-  })
-  clear()
-}
+const activeIndex = computed(()=>route.path)
+const routes = router.options.routes[0].children
 
+onBeforeRouteUpdate((to,from)=>{
+  if(to.path !== from.path) {
+    clear()
+  }
+})
 
 </script>
 
@@ -47,9 +47,6 @@ function handleLogo(){
   display: flex;
   justify-content: space-between;
   background-color: #36dae0;
-}
-.logo{
-  cursor: pointer;
 }
 .left{
   display: flex;
