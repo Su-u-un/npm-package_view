@@ -1,11 +1,11 @@
 <template>
-  
-  <div class="analyze" v-if="!(JSON.stringify(data)==='{}')">
+  <div id="analyze" v-if="!(JSON.stringify(data)==='{}')">
     <el-descriptions
       class="des"
       title="分析配置"
       :column="4"
       border
+      direction="vertical"
     >
       <el-descriptions-item >
         <template #label>
@@ -13,7 +13,7 @@
             输入目录
           </div>
         </template>
-        <el-tag size="small">{{ data.name }}</el-tag>
+        <el-tag class="tag" size="small">{{ data.name }}</el-tag>
       </el-descriptions-item>
       <el-descriptions-item>
         <template #label>
@@ -21,7 +21,7 @@
             递归深度
           </div>
         </template>
-        <el-tag size="small">{{(JSON.stringify(data.depth)==='null'?'Infinity':data.depth)}}</el-tag>
+        <el-tag class="tag" size="small">{{(JSON.stringify(data.depth)==='null'?'Infinity':data.depth)}}</el-tag>
       </el-descriptions-item>
       <el-descriptions-item>
         <template #label>
@@ -29,7 +29,7 @@
             包管理器
           </div>
         </template>
-        <el-tag size="small">{{data.manager}}</el-tag>
+        <el-tag class="tag" size="small">{{data.manager}}</el-tag>
       </el-descriptions-item>
       <el-descriptions-item>
         <template #label>
@@ -37,7 +37,7 @@
             搜索范围
           </div>
         </template>
-        <el-tag size="small" v-for="(value, key) in data.scope" :key="key">{{ value&&key }}</el-tag>
+        <el-tag class="tag" size="small" v-for="(value, key) in data.scope" :key="key">{{ value&&key }}</el-tag>
       </el-descriptions-item>
     </el-descriptions>
 
@@ -60,15 +60,16 @@
       </template>
 
       <div>
-        <h4>已安装-{{ data.detected }}个</h4>
+        <h5>已安装-{{ data.detected }}个</h5>
       </div>
       <div>
-        <h4>已分析-{{ data.analyzed }}个</h4>
+        <h5>已分析-{{ data.analyzed }}个</h5>
       </div>
       
 
-      <h4>未安装-{{ data.notFound.length ?data.notFound.length:0}}个</h4>
-      <div class="items">
+      <h5>未安装-{{ data.notFound.length || 0}}个</h5>
+      <div class="items" v-if="data.notFound.length">
+        <span style="margin-left: 12px;"></span>
         <el-popover
           placement="right"
           trigger="hover"
@@ -86,8 +87,9 @@
           </div>
         </el-popover>
       </div>
-      <h4>未安装(可选)-{{ data.optionalNotMeet.length }}个</h4>
-      <div class="items">
+      <h5>未安装(可选)-{{ data.optionalNotMeet.length || 0 }}个</h5>
+      <div class="items" v-if="data.optionalNotMeet.length">
+        <span style="margin-left: 12px;"></span>
         <el-popover
           placement="right"
           trigger="hover"
@@ -106,8 +108,9 @@
         </el-popover>
       </div>
 
-      <h4>版本不符-{{ data.rangeInvalid.length }}个</h4>
-      <div class="items">
+      <h5>版本不符-{{ data.rangeInvalid.length }}个</h5>
+      <span style="margin-left: 12px;"></span>
+      <div class="items" v-if="data.rangeInvalid.length">
         <el-popover
           placement="right"
           trigger="hover"
@@ -132,10 +135,10 @@
         </el-popover>
       </div>
 
-      <h4>未使用包</h4>
+      <h5>未使用包</h5>
       <div>
         <li v-for="(item, i) in data.unused" :key="i">
-          {{ item }}
+          {{ i + 1 }}.包路径：{{ item }}
         </li>
       </div>
     </el-card>
@@ -147,20 +150,26 @@ import {onMounted,onBeforeMount,ref, Ref} from "vue"
 
 let data: Ref<any> = ref({})
 
-onBeforeMount(async ()=>{
+
+onBeforeMount(()=>{
+   update()
+})
+
+
+async function update(){
   await fetch("json/eval.json").then(res=>res.json()).then(
       temp=>{
         data.value = temp
       }).catch(err=>err)
-})
+}
 
 </script>
 
 <style lang="scss" scoped>
-.analyze{
+#analyze {
   display: flex;
   flex-direction: column;
-  width:700px;
+  width: 80%;
 }
 
 .el-descriptions {
@@ -174,6 +183,11 @@ onBeforeMount(async ()=>{
 .des {
   margin-top: 20px;
   margin-bottom: 20px;
+  height: 15%;
+}
+
+.tag {
+  margin: 0.2em;
 }
 
 .item {
@@ -181,11 +195,10 @@ onBeforeMount(async ()=>{
 }
 
 .card{
-  height: 100%;
+  height: 75%;
+  overflow: scroll;
 }
-.el-card{
-  overflow: visible !important;
-}
+
 ::-webkit-scrollbar {
   width: 0;
 }
