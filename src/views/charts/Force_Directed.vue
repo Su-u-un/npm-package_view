@@ -27,9 +27,10 @@ export default {
     load() {
       json('json/res.json')
         .then((data: any) => {
+          const cp = this;
           this.my.data = data;
 
-          const svg = select("#chart").append("svg");
+          const container = select("#chart");
 
           // 自适应窗口大小
           const w = window,
@@ -40,21 +41,17 @@ export default {
           let width = w.innerWidth || e.clientWidth || gg.clientWidth;
           let height = w.innerHeight || e.clientHeight || gg.clientHeight;
 
-          svg
-            .attr("width", width)
-            .attr("height", height)
-            .attr("viewBox", [-width / 2, -height / 2, width, height].join(','))
-            .attr("style", "max-width: 100%; max-height: 100%;");
-
+          this.my.chart = new Chart(container, data, { showExtraneous: false });
+          
           function updateWindow() {
             width = w.innerWidth || e.clientWidth || gg.clientWidth;
             height = w.innerHeight || e.clientHeight || gg.clientHeight;
 
-            svg.attr("width", width).attr("height", height);
+            cp.my.chart.resize(width, height);
           }
           select(window).on('resize.updatesvg', updateWindow);
 
-          this.my.chart = new Chart(svg, data, { showExtraneous: false });
+          
         })
         .catch(error => {
           // 处理读取JSON文件时的错误

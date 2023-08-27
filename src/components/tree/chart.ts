@@ -415,7 +415,7 @@ export default class Chart {
                                 )
                                 .replace("$", n[e[0]])
                         )
-                        .join("<br>") + (i < a.length - 1 ? "<hr>" : "")
+                        .join("<br>") + (i < a.length - 1 ? '<hr class="tree tooltip-hr">' : "")
             );
 
             // 移除浮层hidden样式，展示浮层

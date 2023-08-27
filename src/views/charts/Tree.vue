@@ -61,6 +61,20 @@ export default {
     stroke-width: 4px;
     cursor: pointer;
   }
+
+  &.tooltip-hr {
+    text-align: center;
+    line-height: 0px;
+    &::after {
+      content: "循环依赖";
+      color: grey;
+      background: white;
+      padding: 0 10px;
+      line-height: 1px;
+      white-space: nowrap;
+      z-index: 2;
+    }
+  }
 } 
 </style>
 
