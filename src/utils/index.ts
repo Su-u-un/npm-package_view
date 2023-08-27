@@ -25,7 +25,8 @@ const marked = new Marked(
 const READMEs = ["readme.md", "Readme.md", "README.md", "ReadMe.md"];
 const PACKAGE_JSON = "package.json";
 
-const staticUrl = "http://127.0.0.1:5501/api";
+// const staticUrl = "http://127.0.0.1:5501/api";
+const staticUrl = "";
 const staticQuest = axios.create({
   baseURL: staticUrl,
 });

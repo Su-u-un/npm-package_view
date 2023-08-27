@@ -349,7 +349,6 @@ export default class Chart {
         }
         this.clickNode = d;
         this.update();
-        // d._clickid = undefined;
     }
 
     mouseOver(d: HierarchyPointNode) {
@@ -368,10 +367,9 @@ export default class Chart {
             let inner = chartTooltip.selectAll("p").data(d.data.nodes);
 
             // 处理节点数据
-            let depth: string = "";
+            let depth: string = " ";
             if (d.depth === 0) depth = "主目录";
             else if (d.depth === 1) depth = "主依赖";
-
             // 更新浮层内容
             let list: [
                 string,
