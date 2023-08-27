@@ -47,7 +47,7 @@ export default {
             width = w.innerWidth || e.clientWidth || gg.clientWidth;
             height = w.innerHeight || e.clientHeight || gg.clientHeight;
 
-            cp.my.chart.resize(width, height);
+            cp.my.chart!.resize(width, height);
           }
           select(window).on('resize.updatesvg', updateWindow);
 

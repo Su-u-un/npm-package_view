@@ -112,7 +112,7 @@ export default class Chart {
 
         // 创建zoom
         const zoom = d3
-            .zoom()
+            .zoom<SVGSVGElement, unknown>()
             // 设置缩放区域为0.1-100倍
             .scaleExtent([0.1, 100])
             .on("zoom", () => {
@@ -122,7 +122,7 @@ export default class Chart {
             });
 
         // 绑定zoom事件，同时释放zoom双击事件
-        svg.call(zoom as any).on("dblclick.zoom", () => {});
+        svg.call(zoom).on("dblclick.zoom", () => {});
 
         // 创建信息浮层
         const div = d3
@@ -152,7 +152,7 @@ export default class Chart {
     }
     updateNodes() {
         const node = this.panel
-            .selectAll("g.node")
+            .selectAll<SVGGElement, unknown>("g.node")
             .data(this.nodes, (d: any) => d.id || (d.id = ++i));
         const root = this.clickNode;
         const ct = this;
@@ -253,7 +253,7 @@ export default class Chart {
 
     updateLinks() {
         const link = this.panel
-            .selectAll("path.link")
+            .selectAll<SVGPathElement, unknown>("path.link")
             .data(this.links, (d: any) => d.id);
 
         const root = this.clickNode;
@@ -395,25 +395,15 @@ export default class Chart {
             ];
             inner.join("p").html(
                 (n, i, a) =>
-                    list
-                        .map((e) =>
-                            d3
-                                .create("p")
-                                .attr("class", e[0])
-                                .text(
-                                    (e[1] ? e[1] + "：" : "") +
-                                        (e[2]
-                                            ? typeof e[2] === "function"
-                                                ? e[2](n)
-                                                : e[2]
-                                            : "$")
-                                )
-                                .node()
-                                ?.innerHTML.replace(
-                                    /\*\*(.*)\*\*/,
-                                    "<strong>$1</strong>"
-                                )
-                                .replace("$", n[e[0]])
+                    list.map((e) => d3.create("p")
+                            .attr("class", e[0])
+                            .text((e[1] ? e[1] + "：" : "") +
+                                (e[2] ? typeof e[2] === "function" ? e[2](n) : e[2] : "$")
+                            )
+                            .node()
+                            ?.innerHTML
+                            .replace(/\*\*(.*)\*\*/, "<strong>$1</strong>")
+                            .replace("$", n[e[0]])
                         )
                         .join("<br>") + (i < a.length - 1 ? '<hr class="tree tooltip-hr">' : "")
             );
