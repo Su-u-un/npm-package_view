@@ -34,14 +34,14 @@ export default class Chart{
     options:ChartOption
     root!: d3.HierarchyNode<Hierarchy>
     sunData!:d3.HierarchyRectangularNode<unknown>
-    panel: d3.Selection<SVGGElement, any, any, any> = d3.select('');
+    panel!: d3.Selection<SVGGElement, any, any, any>;
     label!:d3.Selection<SVGGElement | SVGTextElement, any, any, any>;
     parent!:d3.Selection<SVGGElement | SVGTextElement, any, any, any>;
     arc:d3.Arc<any, d3.DefaultArcObject> = d3.arc()
     item!:any;
     clickItem:any
     color:d3.ScaleOrdinal<string, string> = d3.scaleOrdinal([''],[''])
-    svg:d3.Selection<SVGSVGElement, unknown, HTMLElement, any> = d3.select('')
+    svg!:d3.Selection<SVGSVGElement, unknown, HTMLElement, any>
 
     init(){
         // 数据处理
