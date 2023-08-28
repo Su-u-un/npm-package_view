@@ -43,6 +43,7 @@ export default class Chart{
     clickItem:any
     color:any
     svg:any
+    labelPanel:any
 
 
     init(){
@@ -61,6 +62,8 @@ export default class Chart{
         // this.root = Object.assign(d3.hierarchy(hierarchy),{x0:0,y0:0})
         
         this.root.sum(d => d.value)
+        console.log(this.root);
+        
         this.color = d3.scaleOrdinal(d3.quantize(d3.interpolateRainbow, this.root.children.length + 1));
 
 
@@ -100,18 +103,16 @@ export default class Chart{
         // 创建视图
         ct.panel = svg.append('g')
         // 文字
-        ct.label = svg.append("g")
-            .attr("pointer-events", "none")
-            .attr("text-anchor", "middle")
-            .style("user-select", "none")
+        ct.labelPanel = this.panel.append("g")
+        
         // 中间的返回父级圈圈
-        ct.parent = svg.append('g')
+        ct.parent = this.panel.append('circle')
             .datum(this.sunData)
             .attr("r", radius)
             .attr("fill", "none")
             .attr("pointer-events", "all")
-            .on('click',click)
-        
+            .on('click',function(e){ct.clicked(e)})
+            
         // 创建zoom
         const zoom = d3
             .zoom()
@@ -121,53 +122,45 @@ export default class Chart{
                 // 子group元素将响应zoom事件，并更新transform状态
                 const { x, y, k } = d3.event.transform;
                 ct.panel.attr("transform", `translate(${x}, ${y}) scale(${k})`);
-                ct.label.attr("transform", `translate(${x}, ${y}) scale(${k})`);
             });
-
+        
         // 绑定zoom事件，同时释放zoom双击事件
         svg.call(zoom).on("dblclick.zoom", () => {});
 
     }
     // 处理更新的数据
     update(){
-        this.path = this.sunData.descendants().slice(1)
         
         this.updateTest()
         this.updateLabel()
     }
     // 更新图例
     updateTest(){
-        const path = this.panel.selectAll('path').data(this.path)
-
         const ct = this
-        const root = this.clickItem
-        
-        // 对图例的进行处理
-        path.join("path")
-            .attr("fill", d => { while (d.depth > 1) d = d.parent; return this.color(d.data.nodes[0].id); })
+        this.path = this.panel.selectAll("path").data(this.sunData.descendants().slice(1))
+            .join("path")
+            .attr("fill", d => { while (d.depth > 1) d = d.parent; 
+             return ct.color(d.data.nodes[0].id); })
             .attr("fill-opacity", d => ct.arcVisible(d.current) ? (d.children ? 0.6 : 0.4) : 0)
             .attr("pointer-events", d => ct.arcVisible(d.current) ? "auto" : "none")
-            .attr("d", d => ct.arc(d.current))
-            
-        path.filter(d => d.children )
-            .style("cursor", "pointer")
-            .on("click", click);
-
-        const format = d3.format(",d");
-        path.append("title")
-            .text(d => `${d.ancestors().map(d => d.data.nodes[0].id).reverse().join("/")}\n${format(d.value)}`);
-            
+            .attr("d", d => ct.arc(d.current));
         
+        this.path.filter(d => d.children )
+        .style("cursor", "pointer")
+            .on("click", function(e){ct.clicked(e)});
 
-        
-            
+        // const format = d3.format(",d");
+        // this.path.append("title")
+        //     .text(d => `${d.ancestors().map(d => d.data.nodes[0].id).reverse().join("/")}\n${format(d.value)}`);      
     }
 
     updateLabel(){
-        const label = this.label.selectAll("text").data(this.path)
         const ct = this
-
-        label.join("text")
+        this.label = this.labelPanel
+        .attr("pointer-events", "none")
+        .attr("text-anchor", "middle")
+        .style("user-select", "none").selectAll("text").data(this.sunData.descendants().slice(1))
+        .join("text")
             .attr("dy", "0.35em")
             .attr("fill-opacity", d => +ct.labelVisible(d.current))
             .attr("transform", d => ct.labelTransform(d.current))
@@ -175,10 +168,8 @@ export default class Chart{
     }
 
     clicked(p){
-        console.log("点了item");
-        
         const ct = this
-        this.parent.datum(p.parent)
+        this.parent.datum(p.parent||this.sunData)
 
         this.sunData.each(d => d.target = {
             x0: Math.max(0, Math.min(1, (d.x0 - p.x0) / (p.x1 - p.x0))) * 2 * Math.PI,
@@ -187,40 +178,8 @@ export default class Chart{
             y1: Math.max(0, d.y1 - p.depth)
           });
 
-
-        this.panel.transition(this.svg.transition().duration(750))
-          .tween("data", d => {
-            const i = d3.interpolate(d.current, d.target);
-            return t => d.current = i(t);
-          })
-        .filter(function(d) {
-          return +this.getAttribute("fill-opacity") || ct.arcVisible(d.target);
-        })
-          .attr("fill-opacity", d => ct.arcVisible(d.target) ? (d.children ? 0.6 : 0.4) : 0)
-          .attr("pointer-events", d => ct.arcVisible(d.target) ? "auto" : "none") 
-    
-          .attrTween("d", d => () => ct.arc(d.current));
-
-        this.label.filter(function(d) {
-            return +this.getAttribute("fill-opacity") || ct.labelVisible(d.target);
-          }).transition(t)
-            .attr("fill-opacity", d => +ct.labelVisible(d.target))
-            .attrTween("transform", d => () => ct.labelTransform(d.current));
-    }
-    clickCenter(event,p){
-        console.log("点了nidie");
-
-        const ct = this
-        this.parent.datum(this.sunData)
-        this.sunData.each(d => d.target = {
-            x0: Math.max(0, Math.min(1, (d.x0 - p.x0) / (p.x1 - p.x0))) * 2 * Math.PI,
-            x1: Math.max(0, Math.min(1, (d.x1 - p.x0) / (p.x1 - p.x0))) * 2 * Math.PI,
-            y0: Math.max(0, d.y0 - p.depth),
-            y1: Math.max(0, d.y1 - p.depth)
-          });
-
-
-        this.panel.transition(this.svg.transition().duration(750))
+let t = this.svg.transition().duration(750)
+        this.path.transition(t)
           .tween("data", d => {
             const i = d3.interpolate(d.current, d.target);
             return t => d.current = i(t);
