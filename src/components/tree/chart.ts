@@ -56,6 +56,8 @@ export default class Chart {
         const hierarchy = Hierarchy.createHierarchy(data);
 
         this.root = Object.assign(d3.hierarchy(hierarchy), { x0: 0, y0: 0 });
+        
+        readInfo(this.root.data.nodes[0].dir!)
         // 定义Tree层级
         this.treeMap = d3.tree().nodeSize([50, 50]);
         this.clickNode = Object.assign(this.treeMap(this.root), {
@@ -97,11 +99,11 @@ export default class Chart {
         const w = window,
             d = document,
             e = d.documentElement,
-            gg = d.getElementsByTagName("body")[0];
+            g = d.getElementsByTagName("body")[0];
 
         function updateWindow() {
-            width = w.innerWidth || e.clientWidth || gg.clientWidth;
-            height = w.innerHeight || e.clientHeight || gg.clientHeight;
+            width = w.innerWidth || e.clientWidth || g.clientWidth;
+            height = w.innerHeight || e.clientHeight || g.clientHeight;
 
             svg.attr("width", width).attr("height", height - 63);
         }
@@ -337,8 +339,10 @@ export default class Chart {
 
     click(d: HierarchyPointNode) {
         const first = d.data.nodes[0];
+        
         if (first.dir) {
-            readInfo(first.dir, first.id);
+            if(d.depth===0) readInfo(first.dir)
+            else readInfo(first.dir, first.id);
         }
         if (d.children) {
             d._children = d.children;
