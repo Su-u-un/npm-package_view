@@ -99,14 +99,11 @@ export default class Chart {
     initData() {
         const { data } = this;
 
-        // Compute the graph and start the force simulation.
-        //const root = d3.hierarchy(data[0]);
-        //const links = root.links();
-        //const nodes = root.descendants();
-
         // 根据数据生成有向图的顶点和边信息
         this.nodes = data.map((e: DiagramNode, i: number) => new Node(i, e));
         const { nodes } = this;
+
+        readInfo(this.nodes[0].data.dir!)
 
         // 计算由根顶点到所有顶点的依赖路径
         this.requirePaths = getPaths(0, nodes, (i) => nodes[i].data.requiring);
@@ -624,7 +621,9 @@ export default class Chart {
         const { data: { requiring }, dataIndex: i } = node;
         console.log('点击顶点', i, eThis, node, this.requirePaths[i]);
         if(node.data.dir) {
-            readInfo(node.data.dir, node.data.id);
+            if(node.depth===0) readInfo(node.data.dir);
+            else readInfo(node.data.dir, node.data.id);
+            
         }
         if (!requiring.length) return;
         this.showOutBorders(i);

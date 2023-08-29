@@ -3,7 +3,7 @@
     <el-descriptions
       class="des"
       title="分析配置"
-      :column="4"
+      :column="1"
       border
       direction="vertical"
     >
@@ -45,17 +45,18 @@
       <template #header>
         <div class="card-header">
           <el-descriptions
-        class="des"
-        border>
-        <el-descriptions-item >
-          <template #label>
-            <div class="cell-item">
-              目录：{{data.name}}
-            </div>
-          </template>
-          {{ data.pkgRoot }}
-        </el-descriptions-item>
-      </el-descriptions>
+            class="des"
+            border
+            direction="vertical">
+            <el-descriptions-item >
+              <template #label>
+                <div class="cell-item">
+                  目录：{{data.name}}
+                </div>
+              </template>
+              {{ data.pkgRoot }}
+            </el-descriptions-item>
+          </el-descriptions>
         </div>
       </template>
 
@@ -69,7 +70,7 @@
 
       <h5>未安装-{{ data.notFound.length || 0}}个</h5>
       <div class="items" v-if="data.notFound.length">
-        <span style="margin-left: 12px;"></span>
+        <span style="margin-left: 8px;"></span>
         <el-popover
           placement="right"
           trigger="hover"
@@ -89,7 +90,7 @@
       </div>
       <h5>未安装(可选)-{{ data.optionalNotMeet.length || 0 }}个</h5>
       <div class="items" v-if="data.optionalNotMeet.length">
-        <span style="margin-left: 12px;"></span>
+        <span style="margin-left: 8px;"></span>
         <el-popover
           placement="right"
           trigger="hover"
@@ -109,8 +110,8 @@
       </div>
 
       <h5>版本不符-{{ data.rangeInvalid.length }}个</h5>
-      <span style="margin-left: 12px;"></span>
       <div class="items" v-if="data.rangeInvalid.length">
+        <span style="margin-left: 8px;"></span>
         <el-popover
           placement="right"
           trigger="hover"
@@ -138,7 +139,7 @@
       <h5>未使用包</h5>
       <div>
         <li v-for="(item, i) in data.unused" :key="i">
-          {{ i + 1 }}.包路径：{{ item }}
+         包路径：{{ item }}
         </li>
       </div>
     </el-card>
@@ -146,7 +147,7 @@
 </template>
 
 <script setup lang="ts">
-import {onMounted,onBeforeMount,ref, Ref} from "vue"
+import {onBeforeMount,ref, Ref} from "vue"
 
 let data: Ref<any> = ref({})
 
@@ -183,7 +184,6 @@ async function update(){
 .des {
   margin-top: 20px;
   margin-bottom: 20px;
-  height: 15%;
 }
 
 .tag {
@@ -195,8 +195,7 @@ async function update(){
 }
 
 .card{
-  height: 75%;
-  overflow: scroll;
+  overflow: visible !important;
 }
 
 ::-webkit-scrollbar {

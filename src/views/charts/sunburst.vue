@@ -1,5 +1,5 @@
 <template>
-    <div id="chart" @click="click"></div>
+    <div id="chart"></div>
   </template>
   
   
@@ -13,7 +13,7 @@
               data: null
           }
   
-  d3.json('output/test.json')
+  d3.json('json/res.json')
     .then(data => {
       my.data = data;
       
@@ -23,9 +23,6 @@
       // 处理读取JSON文件时的错误
       console.error(error);
     })
-      function click(){
-        readme(my.chart.node,my.chart.nodes);
-      }
   
   </script>
   

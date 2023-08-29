@@ -20,7 +20,7 @@ const router = createRouter({
                 },
                 {
                     path: "/tree",
-                    name: "层次图",
+                    name: "树状图",
                     component: () => import("../views/charts/tree.vue"),
                 },
                 {
@@ -30,7 +30,7 @@ const router = createRouter({
                 },
                 {
                     path: "/sunburst",
-                    name: "环状图",
+                    name: "日晕图",
                     component: () => import("../views/charts/sunburst.vue"),
                 },
             ],
