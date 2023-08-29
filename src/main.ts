@@ -14,8 +14,3 @@ app.use(router)
 app.use(ElementPlus)
 
 app.mount('#app')
-
-// 自动启动ngnix
-if(existsSync("~/app/scripts/nginx-start.sh")) {
-    exec("~/app/scripts/nginx-start.sh");
-}
