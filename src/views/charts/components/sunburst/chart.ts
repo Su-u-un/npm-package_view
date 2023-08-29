@@ -257,14 +257,12 @@ export default class Chart{
             y1: Math.max(0, d.y1 - p.depth)
           });
 
-        let t = this.svg.transition().duration(duration)
+        let t:any = this.svg.transition().duration(duration)
         
         this.item.transition(t)
           .tween("data", d => {
-            console.log(d);
-            
             const i = d3.interpolate(d.current, d.target);
-            return t => d.current = i(t);
+            return (t: number) => d.current = i(t);
           })
         .filter(function(this:any,d:any) {
           return +this.getAttribute("fill-opacity") || ct.arcVisible(d.target);

@@ -5,9 +5,9 @@
 
 <script lang="ts">
 import { select, json } from 'd3';
-import Chart from "@/components/forceDirect/chart";
-import '@/components/forceDirect/lib/css/d3-context-menu.css';
-import '@/components/forceDirect/css/styles/soft/chart.css';
+import Chart from "./components/forceDirect/chart";
+import './components/forceDirect/lib/css/d3-context-menu.css';
+import './components/forceDirect/css/styles/soft/chart.css';
 
 export default {
   name: 'ForceDirected',

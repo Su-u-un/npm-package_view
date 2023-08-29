@@ -1,4 +1,4 @@
-import { Node } from '../components/forceDirect/chartNode'
+import { Node } from '@/views/charts/components/forceDirect/chartNode'
 
 export type PosTuple = [number, number];
 

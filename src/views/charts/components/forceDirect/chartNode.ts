@@ -1,4 +1,4 @@
-import { getLength, getAngle, getCenter, PosTuple } from "../../utils/diagram";
+import { getLength, getAngle, getCenter, PosTuple } from "@/utils/diagram";
 
 export type DiagramNode = {
     space: string;
