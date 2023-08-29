@@ -11,9 +11,9 @@
 </template>
 
 <script setup lang="ts">
-import MainNavbar from "./layout/_common_top.vue";
-import MainContent from "./layout/_common_center.vue";
-import MainRight from "./layout/_common_right.vue";
+import MainNavbar from "./layout/top.vue";
+import MainContent from "./layout/center.vue";
+import MainRight from "./layout/right.vue";
 
 </script>
 <style>

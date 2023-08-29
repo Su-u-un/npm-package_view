@@ -1,13 +1,13 @@
 <template>
-  <div id="chart" class="charts"></div>
+  <div id="chart"></div>
 </template>
 
 <script lang="ts">
-import D3view from '@/components/tree/chart'
+import D3view from './components/tree/chart'
 import { json } from 'd3';
 
 export default {
-  name: 'TreeChart',
+  name: 'tree',
   data(): {
     my: {
       chart: D3view | null,
