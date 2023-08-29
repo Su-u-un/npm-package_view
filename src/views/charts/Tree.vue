@@ -6,6 +6,7 @@
 import D3view from '@/components/tree/chart'
 import { json } from 'd3';
 
+// 树状图
 export default {
   name: 'TreeChart',
   data(): {
