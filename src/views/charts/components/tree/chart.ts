@@ -180,8 +180,6 @@ export default class Chart {
                 d3.select(".chartTooltip").classed("hidden", true);
             });
 
-        console.log(nodeEnter);
-
         // 给新的数据 绑定到新建的cycle元素上
         nodeEnter
             .append("circle")

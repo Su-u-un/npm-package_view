@@ -138,7 +138,7 @@
 
       <h5>未使用包</h5>
       <div>
-        <li v-for="(item, i) in data.unused" :key="i">
+        <li v-for="(item, i) in data.unused" :key="i" style="word-break: break-all;">
          包路径：{{ item }}
         </li>
       </div>
