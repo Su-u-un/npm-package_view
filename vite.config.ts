@@ -18,15 +18,25 @@ export default defineConfig({
       }
     }
   },
+  hmr: {
+    clientPort : 443
+  },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
   },
+  proxy: {
+    '/api': {
+      target: 'http://localhost:5501/',
+      changeOrigin: true,
+      rewrite: (path) => path.replace(/^\/api/, ''),
+    },
+  },
   server: {
     https: false,
-    host: '127.0.0.1',
-    port: 5502,
+    host: '0.0.0.0',
+    port: 5500,
     cors: true
   },
   css: {
